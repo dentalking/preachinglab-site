@@ -55,7 +55,7 @@ form?.addEventListener('submit', (e) => {
     `성함: ${v('f-name')}`,
     `교회: ${v('f-church') || '-'}`,
     `연락처: ${v('f-contact')}`,
-    `예배 영상: ${v('f-link') || '-'}`,
+    `설교 영상: ${v('f-link') || '-'}`,
     '',
     '지향하는 설교:',
     v('f-goal') || '-',
