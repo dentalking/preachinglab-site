@@ -356,8 +356,11 @@ p { margin: 0 0 1em; }
 /* 봇 거르기용 칸. 화면에서 지우되 자동완성이 채우지 않도록 남겨둡니다. */
 .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
-/* 사람 확인. interaction-only 라 평소에는 비어 있으므로 여백을 만들지 않습니다. */
-.cf-turnstile:not(:empty) { margin: 4px 0 14px; }
+/* 사람 확인. interaction-only 라 평소에는 높이가 0입니다.
+   숨은 상태에서도 자식 요소는 존재하므로 :empty 로는 구분되지 않습니다.
+   여백을 주면 보이지도 않는 것이 버튼을 18px 밀어냅니다. 그래서 0으로 두고,
+   확인 상자가 실제로 뜰 때의 간격은 버튼의 margin-top 에 맡깁니다. */
+.cf-turnstile { margin: 0; }
 
 /* 전송 결과. 빈 문자열이면 자리를 차지하지 않습니다. */
 .form-status { margin: 12px 0 0; font-size: .9rem; line-height: 1.6; }
