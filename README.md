@@ -11,6 +11,28 @@ _headers          Cloudflare Pages 보안 헤더
 
 빌드 과정이 없습니다. 파일을 고치면 그대로 배포됩니다.
 
+## ⚠️ 커밋 전에 `./bump.sh`
+
+`assets/` 를 고치셨으면 **반드시 실행하세요.**
+
+```bash
+./bump.sh && git add -A && git commit -m "…" && git push
+```
+
+`index.html` 은 캐시되지 않지만 `assets/*` 는 엣지에 **최대 4시간** 남습니다.
+그동안 방문자는 **새 HTML + 옛 JS** 를 받습니다. 실제로 이 조합 때문에
+신청 폼이 예전 mailto 동작으로 되돌아간 적이 있습니다. 조용히 깨지는 종류라
+더 위험합니다.
+
+`bump.sh` 는 파일 내용의 해시를 URL 에 붙입니다(`app.js?v=7e0f3ce0`).
+내용이 바뀌면 URL 이 바뀌므로 캐시가 자동으로 무효화됩니다. 여러 번 돌려도
+안전합니다.
+
+> Cloudflare 대시보드에서 **Caching → Browser Cache TTL** 을
+> `Respect Existing Headers` 로 바꾸면 `_headers` 의 값이 그대로 적용됩니다.
+> 지금은 존 기본값(4시간)이 `_headers` 를 덮어쓰고 있습니다.
+> 바꾸셔도 `bump.sh` 는 계속 쓰는 편이 안전합니다.
+
 ## 로컬에서 보기
 
 ```bash
