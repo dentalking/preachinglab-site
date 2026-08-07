@@ -28,6 +28,14 @@ const json = (status, body) =>
 
 const looksLikeEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
 
+// 받침 유무로 조사를 고른다. "성함을" / "연락처를"
+// 안 하면 "성함을(를)" 같은 문장이 사용자에게 그대로 보입니다.
+function josa(word, withBatchim, without) {
+  const code = word.charCodeAt(word.length - 1);
+  const hangul = code >= 0xac00 && code <= 0xd7a3;
+  return word + (hangul && (code - 0xac00) % 28 !== 0 ? withBatchim : without);
+}
+
 // 메일 헤더에 들어가는 값에서 줄바꿈을 없앤다. 헤더 인젝션 방지.
 const oneLine = (s) => s.replace(/[\r\n]+/g, ' ').trim();
 
@@ -47,7 +55,17 @@ async function send(apiKey, payload) {
   return res.json();
 }
 
-export async function onRequestPost({ request, env }) {
+// onRequestPost 만 두면 GET 요청이 이 함수를 그냥 지나쳐 정적 파일 쪽으로
+// 흘러가고, Pages 가 index.html 을 200 으로 내줍니다. /apply 가 홈페이지의
+// 사본이 되어 검색엔진에 중복으로 잡힙니다. 그래서 메서드를 직접 봅니다.
+export async function onRequest(context) {
+  if (context.request.method !== 'POST') {
+    return json(405, { ok: false, error: 'POST 만 받습니다.' });
+  }
+  return handleApply(context);
+}
+
+async function handleApply({ request, env }) {
   if (!env.RESEND_API_KEY) {
     return json(500, { ok: false, error: '메일 설정이 되어 있지 않습니다.' });
   }
@@ -66,10 +84,10 @@ export async function onRequestPost({ request, env }) {
   for (const [key, spec] of Object.entries(FIELDS)) {
     const raw = typeof body[key] === 'string' ? body[key].trim() : '';
     if (spec.required && !raw) {
-      return json(400, { ok: false, error: `${spec.label}을(를) 입력해 주세요.`, field: key });
+      return json(400, { ok: false, error: `${josa(spec.label, '을', '를')} 입력해 주세요.`, field: key });
     }
     if (raw.length > spec.max) {
-      return json(400, { ok: false, error: `${spec.label}이(가) 너무 깁니다.`, field: key });
+      return json(400, { ok: false, error: `${josa(spec.label, '이', '가')} 너무 깁니다.`, field: key });
     }
     v[key] = raw;
   }
@@ -125,6 +143,3 @@ export async function onRequestPost({ request, env }) {
 
   return json(200, { ok: true });
 }
-
-// onRequestPost 만 내보내면 다른 메서드에는 Pages 가 405 를 돌려줍니다.
-// onRequest 를 함께 내보내면 그쪽이 먼저 잡혀서 POST 가 안 옵니다.
