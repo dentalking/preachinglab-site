@@ -32,25 +32,22 @@ if (reduced || !('IntersectionObserver' in window)) {
 }
 
 /* ── 신청 폼 ─────────────────────────────────── */
-// 지금은 메일 앱을 여는 방식입니다. 신청이 쌓이기 시작하면
-// Cloudflare Pages Functions 나 Tally 같은 폼 서비스로 바꾸세요. README 참고.
+// /apply (Cloudflare Pages Function) 로 보냅니다.
+// 실패하면 예전 방식인 메일 앱 열기로 물러납니다 — 신청을 흘리는 것보다 낫습니다.
 const form = document.getElementById('applyForm');
+const status = document.getElementById('applyStatus');
+const button = form?.querySelector('button[type="submit"]');
 
-form?.addEventListener('submit', (e) => {
-  e.preventDefault();
+const v = (id) => document.getElementById(id).value.trim();
 
-  const need = ['f-name', 'f-contact'];
-  for (const id of need) {
-    const el = document.getElementById(id);
-    if (!el.value.trim()) {
-      el.focus();
-      el.setAttribute('aria-invalid', 'true');
-      return;
-    }
-    el.removeAttribute('aria-invalid');
-  }
+function say(kind, text) {
+  if (!status) return;
+  status.className = `form-status ${kind}`;
+  status.textContent = text;
+}
 
-  const v = (id) => document.getElementById(id).value.trim();
+/** 서버가 안 될 때 쓰는 예전 경로. 메일 앱에 내용을 채워 엽니다. */
+function mailtoFallback() {
   const lines = [
     `성함: ${v('f-name')}`,
     `교회: ${v('f-church') || '-'}`,
@@ -59,14 +56,65 @@ form?.addEventListener('submit', (e) => {
     '',
     '지향하는 설교:',
     v('f-goal') || '-',
-    '',
-    '— preachinglab.cloud 에서 보냅니다',
   ];
-
-  const url =
+  location.href =
     `mailto:${CONTACT_EMAIL}` +
     `?subject=${encodeURIComponent(`[파일럿 신청] ${v('f-name')}`)}` +
     `&body=${encodeURIComponent(lines.join('\n'))}`;
+}
 
-  location.href = url;
+form?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  for (const id of ['f-name', 'f-contact']) {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) {
+      el.focus();
+      el.setAttribute('aria-invalid', 'true');
+      say('bad', '표시된 칸을 채워주세요.');
+      return;
+    }
+    el.removeAttribute('aria-invalid');
+  }
+
+  button.disabled = true;
+  say('busy', '보내는 중…');
+
+  try {
+    const res = await fetch('/apply', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        name: v('f-name'),
+        church: v('f-church'),
+        contact: v('f-contact'),
+        link: v('f-link'),
+        goal: v('f-goal'),
+        website: v('f-website'), // 사람에게는 안 보이는 칸 — 봇 거르기
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok && data.ok) {
+      form.querySelectorAll('input, textarea').forEach((el) => (el.value = ''));
+      say('good', '신청이 접수되었습니다. 하루 안에 답장드리겠습니다.');
+      button.disabled = false;
+      return;
+    }
+
+    if (res.status === 400 && data.field) {
+      const el = document.getElementById(`f-${data.field}`);
+      el?.focus();
+      el?.setAttribute('aria-invalid', 'true');
+      say('bad', data.error ?? '입력을 확인해 주세요.');
+      button.disabled = false;
+      return;
+    }
+
+    throw new Error(data.error ?? `HTTP ${res.status}`);
+  } catch {
+    say('bad', '전송이 안 되어 메일 앱으로 대신 엽니다.');
+    button.disabled = false;
+    mailtoFallback();
+  }
 });

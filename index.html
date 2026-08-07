@@ -329,9 +329,15 @@
           <textarea id="f-goal" name="goal" rows="3" placeholder="예) 대중이 쉽게 알아듣고, 경직되지 않고, 그림이 그려지는 설교"></textarea>
           <p class="hint">적어주시면 그 지향을 평가 항목에 더해 리포트를 만들어 드립니다.</p>
         </div>
+        <!-- 봇 거르기. 사람에게는 보이지 않고, 채워져 있으면 조용히 버립니다. -->
+        <div class="trap" aria-hidden="true">
+          <label for="f-website">홈페이지</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
         <button class="btn btn-solid btn-block" type="submit">신청 보내기</button>
+        <p class="form-status" id="applyStatus" role="status" aria-live="polite"></p>
         <p class="form-note">
-          보내기를 누르면 메일 앱이 열리고 내용이 채워집니다. 그대로 보내주시면 됩니다.
+          누르시면 바로 접수됩니다. 메일 앱이 열리지 않습니다.
           번거로우시면 <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a> 로
           바로 보내주셔도 됩니다.
         </p>

@@ -351,6 +351,19 @@ p { margin: 0 0 1em; }
 .hint { margin: 7px 0 0; font-size: .83rem; color: var(--ink-faint); }
 .form-note { margin: 14px 0 0; font-size: .85rem; color: var(--ink-faint); }
 
+.field input[aria-invalid="true"] { border-color: var(--watch); }
+
+/* 봇 거르기용 칸. 화면에서 지우되 자동완성이 채우지 않도록 남겨둡니다. */
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* 전송 결과. 빈 문자열이면 자리를 차지하지 않습니다. */
+.form-status { margin: 12px 0 0; font-size: .9rem; line-height: 1.6; }
+.form-status:empty { display: none; }
+.form-status.busy { color: var(--ink-faint); }
+.form-status.good { color: var(--good); font-weight: 600; }
+.form-status.bad  { color: var(--watch); }
+.btn[disabled] { opacity: .55; pointer-events: none; }
+
 /* ── 푸터 ───────────────────────────────────── */
 .foot { padding: 48px 0 64px; border-top: 1px solid var(--rule); }
 .f-mark { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; font-family: var(--display); font-weight: 700; }
