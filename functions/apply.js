@@ -42,6 +42,36 @@ const oneLine = (s) => s.replace(/[\r\n]+/g, ' ').trim();
 const esc = (s) =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
+/**
+ * Turnstile 토큰을 검증한다.
+ * TURNSTILE_SECRET 이 없으면 검증을 건너뜁니다 — 키를 넣기 전에도 폼이
+ * 죽지 않도록 한 것입니다. 키를 넣는 순간부터 자동으로 강제됩니다.
+ */
+async function passesTurnstile(env, token, ip) {
+  if (!env.TURNSTILE_SECRET) return true;
+  if (!token) return false;
+
+  const form = new FormData();
+  form.append('secret', env.TURNSTILE_SECRET);
+  form.append('response', token);
+  if (ip) form.append('remoteip', ip);
+
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: form,
+    });
+    const data = await res.json();
+    if (!data.success) console.error('turnstile 거부:', JSON.stringify(data['error-codes']));
+    return data.success === true;
+  } catch (err) {
+    // 검증 서버에 못 닿았다고 해서 신청을 버리면 안 됩니다.
+    // 사람 한 명을 잃는 쪽이 봇 한 번 통과시키는 쪽보다 나쁩니다.
+    console.error('turnstile 검증 실패:', err.message);
+    return true;
+  }
+}
+
 async function send(apiKey, payload) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -79,6 +109,15 @@ async function handleApply({ request, env }) {
 
   // 봇은 사람에게 안 보이는 필드까지 채웁니다. 채워져 있으면 조용히 성공으로 돌려보냅니다.
   if (body.website) return json(200, { ok: true });
+
+  const ok = await passesTurnstile(
+    env,
+    typeof body.turnstile === 'string' ? body.turnstile : '',
+    request.headers.get('cf-connecting-ip'),
+  );
+  if (!ok) {
+    return json(403, { ok: false, error: '사람 확인에 실패했습니다. 새로고침 후 다시 시도해 주세요.' });
+  }
 
   const v = {};
   for (const [key, spec] of Object.entries(FIELDS)) {

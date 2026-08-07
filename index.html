@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=28777b07">
+<link rel="stylesheet" href="assets/style.css?v=7772360f">
 </head>
 <body>
 
@@ -334,6 +334,14 @@
           <label for="f-website">홈페이지</label>
           <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
         </div>
+        <!-- 사람 확인. interaction-only 라 평소에는 아무것도 보이지 않고,
+             의심스러울 때만 확인 상자가 나타납니다. -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAAEI8vrcA5igHQyM3"
+             data-appearance="interaction-only"
+             data-language="ko"
+             data-size="flexible"
+             data-theme="light"></div>
         <button class="btn btn-solid btn-block" type="submit">신청 보내기</button>
         <p class="form-status" id="applyStatus" role="status" aria-live="polite"></p>
         <p class="form-note">
@@ -360,6 +368,7 @@
   </div>
 </footer>
 
-<script src="assets/app.js?v=7e0f3ce0"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="assets/app.js?v=09dc1321"></script>
 </body>
 </html>

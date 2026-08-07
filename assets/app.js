@@ -46,6 +46,11 @@ function say(kind, text) {
   status.textContent = text;
 }
 
+// Turnstile 은 interaction-only 로 붙어 있어 평소에는 화면에 나타나지 않습니다.
+// 토큰은 페이지가 뜬 뒤 백그라운드에서 발급되므로, 아주 빨리 누르면 아직 없을 수 있습니다.
+const turnstileToken = () =>
+  document.querySelector('[name="cf-turnstile-response"]')?.value ?? '';
+
 /** 서버가 안 될 때 쓰는 예전 경로. 메일 앱에 내용을 채워 엽니다. */
 function mailtoFallback() {
   const lines = [
@@ -91,9 +96,13 @@ form?.addEventListener('submit', async (e) => {
         link: v('f-link'),
         goal: v('f-goal'),
         website: v('f-website'), // 사람에게는 안 보이는 칸 — 봇 거르기
+        turnstile: turnstileToken(),
       }),
     });
     const data = await res.json().catch(() => ({}));
+
+    // 토큰은 한 번 쓰면 끝입니다. 성공이든 실패든 새로 받아야 다시 누를 수 있습니다.
+    window.turnstile?.reset();
 
     if (res.ok && data.ok) {
       form.querySelectorAll('input, textarea').forEach((el) => (el.value = ''));
@@ -111,8 +120,17 @@ form?.addEventListener('submit', async (e) => {
       return;
     }
 
+    // 사람 확인 실패. 메일 앱으로 밀지 않습니다 — 봇이면 그쪽도 막아야 하고,
+    // 사람이면 잠깐 뒤 다시 누르는 것으로 대개 통과합니다.
+    if (res.status === 403) {
+      say('bad', data.error ?? '사람 확인에 실패했습니다. 잠시 후 다시 눌러주세요.');
+      button.disabled = false;
+      return;
+    }
+
     throw new Error(data.error ?? `HTTP ${res.status}`);
   } catch {
+    window.turnstile?.reset();
     say('bad', '전송이 안 되어 메일 앱으로 대신 엽니다.');
     button.disabled = false;
     mailtoFallback();

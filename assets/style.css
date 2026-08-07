@@ -356,6 +356,9 @@ p { margin: 0 0 1em; }
 /* 봇 거르기용 칸. 화면에서 지우되 자동완성이 채우지 않도록 남겨둡니다. */
 .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
+/* 사람 확인. interaction-only 라 평소에는 비어 있으므로 여백을 만들지 않습니다. */
+.cf-turnstile:not(:empty) { margin: 4px 0 14px; }
+
 /* 전송 결과. 빈 문자열이면 자리를 차지하지 않습니다. */
 .form-status { margin: 12px 0 0; font-size: .9rem; line-height: 1.6; }
 .form-status:empty { display: none; }
