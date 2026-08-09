@@ -1,7 +1,12 @@
 // POST /apply — 파일럿 신청을 받아 메일 두 통을 보낸다.
 //
 //   ① hello@preachinglab.cloud 로 신청 내용 (Reply-To 를 신청자로 걸어 바로 답장 가능)
-//   ② 신청자에게 접수 확인 (이메일을 주신 경우에만)
+//   ② 신청자에게 접수 확인
+//
+// 연락처는 반드시 이메일이어야 합니다. 예전에는 휴대폰 번호도 받았는데,
+// 그러면 ②가 나가지 않고 ①의 Reply-To 도 비어 답장할 길이 없습니다.
+// 화면에는 "하루 안에 답장드리겠습니다"가 떠서, 신청자는 아무 연락도
+// 받지 못한 채 기다리게 됩니다. 실제로 두 분이 그렇게 기다리셨습니다.
 //
 // 이전에는 mailto: 링크였습니다. 설정이 필요 없다는 장점이 있었지만,
 // 휴대폰에서 메일 앱이 안 뜨거나 낯선 화면이 뜨면 거기서 신청이 끝났습니다.
@@ -15,7 +20,7 @@ const INBOX = 'hello@preachinglab.cloud';
 const FIELDS = {
   name: { label: '성함', max: 60, required: true },
   church: { label: '교회', max: 120 },
-  contact: { label: '연락처', max: 200, required: true },
+  contact: { label: '이메일', max: 200, required: true, email: true },
   link: { label: '설교 영상·녹음 링크', max: 500 },
   goal: { label: '지향하는 설교', max: 2000 },
 };
@@ -128,12 +133,15 @@ async function handleApply({ request, env }) {
     if (raw.length > spec.max) {
       return json(400, { ok: false, error: `${josa(spec.label, '이', '가')} 너무 깁니다.`, field: key });
     }
+    if (spec.email && raw && !looksLikeEmail(raw)) {
+      return json(400, { ok: false, error: '이메일 주소를 다시 확인해 주세요.', field: key });
+    }
     v[key] = raw;
   }
 
   const name = oneLine(v.name);
   const contact = oneLine(v.contact);
-  const replyTo = looksLikeEmail(contact) ? contact : null;
+  const replyTo = contact; // 위에서 형식을 검증했으므로 항상 이메일입니다.
 
   const lines = Object.entries(FIELDS)
     .map(([key, spec]) => `${spec.label}: ${v[key] || '-'}`)

@@ -56,7 +56,7 @@ function mailtoFallback() {
   const lines = [
     `성함: ${v('f-name')}`,
     `교회: ${v('f-church') || '-'}`,
-    `연락처: ${v('f-contact')}`,
+    `이메일: ${v('f-contact')}`,
     `설교 영상: ${v('f-link') || '-'}`,
     '',
     '지향하는 설교:',
@@ -81,6 +81,17 @@ form?.addEventListener('submit', async (e) => {
     }
     el.removeAttribute('aria-invalid');
   }
+
+  // 이메일이 아니면 접수 확인도 답장도 보낼 수 없습니다. 실제로 휴대폰 번호만
+  // 적고 신청하신 분들이 아무 연락도 못 받은 채 기다리신 적이 있습니다.
+  const contactEl = document.getElementById('f-contact');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contactEl.value.trim())) {
+    contactEl.focus();
+    contactEl.setAttribute('aria-invalid', 'true');
+    say('bad', '리포트를 받으실 이메일 주소를 적어주세요.');
+    return;
+  }
+  contactEl.removeAttribute('aria-invalid');
 
   button.disabled = true;
   say('busy', '보내는 중…');
