@@ -1,3 +1,29 @@
+// 몇 분이나 오시는지 한 번 알린다.
+//
+// **외부 분석 도구를 쓰지 않습니다.** 구글 애널리틱스를 넣는 순간 목사님이
+// 이 페이지를 봤다는 사실이 광고 회사로 갑니다. 설교를 맡아 두는 서비스가
+// 할 일이 아닙니다.
+//
+// 우리 서버로 숫자만 보냅니다 — 날짜·경로·유입처 도메인·폰인지 여부.
+// 쿠키를 굽지 않아 같은 분이 두 번 오신 것과 두 분이 한 번씩 오신 것을
+// 구별하지 못합니다. 구별하려면 사람을 표시해야 하는데, 그걸 안 하기로 한
+// 것이 요점입니다. 그래도 "알리는 문제인가 설득하는 문제인가" 는 갈립니다.
+//
+// `no-cors` 라 응답을 읽지 못하고, 실패해도 아무 일도 일어나지 않습니다.
+// 세는 일 때문에 페이지가 느려지면 본말이 뒤집힙니다.
+const COUNT_AT = 'https://my.preachinglab.cloud/v';
+function countVisit(path) {
+  try {
+    const u = new URL(COUNT_AT);
+    u.searchParams.set('p', path);
+    if (document.referrer) u.searchParams.set('r', document.referrer);
+    fetch(u, { mode: 'no-cors', credentials: 'omit', keepalive: true }).catch(() => {});
+  } catch {
+    /* 세지 못해도 그만입니다 */
+  }
+}
+countVisit(location.pathname.replace(/\.html$/, '') || '/');
+
 /* Preaching Lab — 랜딩 페이지 동작 */
 
 const CONTACT_EMAIL = 'hello@preachinglab.cloud';
@@ -117,6 +143,8 @@ form?.addEventListener('submit', async (e) => {
 
     if (res.ok && data.ok) {
       form.querySelectorAll('input, textarea').forEach((el) => (el.value = ''));
+      // 방문과 신청을 나란히 놓아야 "와서 안 누르는 것" 이 보입니다.
+      countVisit('/apply-done');
       say('good', '신청이 접수되었습니다. 하루 안에 답장드리겠습니다.');
       button.disabled = false;
       return;
