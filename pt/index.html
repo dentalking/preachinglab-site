@@ -76,14 +76,13 @@
      en/privacy.html 이 이미 같은 방식으로 Lora 를 씁니다. -->
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=3bdbc491">
+<link rel="stylesheet" href="../assets/style.css?v=b98643df">
 <style>
   :root { --display: 'Lora', Georgia, 'Times New Roman', serif; }
   /* keep-all 은 한국어에서 낱말이 갈라지지 않게 하려고 건 것입니다.
      영어에서는 긴 URL 이 상자를 뚫고 나가는 것만 막으면 됩니다. */
   body { word-break: normal; overflow-wrap: anywhere; }
 
-  .lang-switch { font-size: .86rem; color: var(--ink-faint); }
 </style>
 </head>
 <body>
@@ -93,7 +92,12 @@
     <span class="mark">✎</span>
     <span>Preaching&nbsp;Lab</span>
   </a>
-  <a class="btn btn-ghost lang-switch" href="/en/" hreflang="en" lang="en">English</a>
+  <nav class="langs" aria-label="Idioma">
+    <a href="/" hreflang="ko" lang="ko">한국어</a>
+    <a href="/en/" hreflang="en" lang="en">English</a>
+    <a href="/es/" hreflang="es" lang="es">Español</a>
+    <span lang="pt">Português</span>
+  </nav>
 </header>
 
 <main id="top">

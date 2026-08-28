@@ -97,6 +97,53 @@ a { color: var(--pen); text-underline-offset: 3px; }
 .btn-quiet:hover { color: var(--pen); }
 .btn-block { width: 100%; margin-top: 8px; padding: 15px 22px; font-size: 1rem; }
 
+/* ── 언어 ─────────────────────────────────────────
+   **네 말이 다 서 있어야 합니다.**
+
+   전에는 한국어 랜딩에 언어 전환이 아예 없었고 영어에는 「한국어」 하나뿐
+   이었습니다. es·pt 랜딩을 다 써서 띄워 놓고도 **그리로 가는 링크가 서비스
+   어디에도 없었습니다** — 검색엔진만 hreflang 으로 알고 있었습니다.
+   그리고 사람이 서로 보내는 주소는 대개 맨 도메인인데 그것이 x-default 라
+   한국어여서, 중남미 목사님이 링크를 받으시면 **한국어 벽에 닿고 나갈 문이
+   없었습니다.** 넷으로 늘린 일의 값어치가 거기서 전부 새고 있었습니다.
+
+   ── 지킨 것 셋 ──
+
+   · **그 말 자신의 이름으로 적습니다.** 「ES」가 아니라 「Español」입니다.
+     스페인어를 읽는 분이 한눈에 알아보셔야 하는 것이 이 줄의 전부이고,
+     두 글자 코드는 이 저장소가 이슈 키에서 이미 겪은 「뜻 모를 영문」입니다.
+   · **머리띠에 둡니다.** 푸터에도 있지만 랜딩이 9,000px 이라 거기까지는
+     안 내려가십니다 — 화면 몇 개 아래는 안 일어난 것과 같습니다.
+   · **44px 을 지킵니다.** 누를 수 있는 것은 상하 여백 합쳐 44pt 이상.
+
+   좁은 폰에서는 머리띠가 두 줄로 접힙니다(`flex-wrap`). 가로로 넘쳐
+   잘리는 것보다 한 줄 더 쓰는 편이 낫습니다. */
+.topbar { flex-wrap: wrap; row-gap: 2px; }
+.langs { display: flex; align-items: center; gap: 0; }
+.langs a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 7px; font-size: .84rem; color: var(--ink-faint);
+  text-decoration: none; white-space: nowrap;
+}
+.langs a:hover { color: var(--pen); }
+/* 지금 보고 계신 말. 눌러도 제자리라 링크로 두지 않습니다. */
+.langs span {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 7px; font-size: .84rem; color: var(--ink); font-weight: 600;
+  white-space: nowrap;
+}
+
+/* **폰에서는 머리띠를 붙박이로 두지 않습니다.**
+   네 말이 한 줄에 안 들어가 머리띠가 두 줄이 되는데, 그것을 sticky 로 두면
+   390px 폰에서 화면의 12%를 늘 물고 있게 됩니다. 언어는 오셨을 때 한 번
+   고르는 것이고, 「파일럿 신청」은 바로 아래 hero 와 맨 아래 신청 칸에
+   또 있습니다. **늘 보이는 값이 자리값보다 작은 것은 내려보냅니다.**
+   넓은 화면은 한 줄에 다 들어가므로 그대로 붙박이입니다. */
+@media (max-width: 640px) {
+  .topbar { position: static; }
+  .langs a, .langs span { padding: 0 6px; font-size: .8rem; }
+}
+
 /* ── 공통 타이포 ─────────────────────────────── */
 .eyebrow {
   margin: 0 0 14px;
