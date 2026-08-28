@@ -1,21 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  공개 페이지 셋뿐입니다. 리포트는 이 도메인에 없습니다.
+  공개 페이지뿐입니다. 랜딩은 네 말(ko·en·es·pt), 방침·약관은 아직 둘(ko·en). 리포트는 이 도메인에 없습니다.
   확장자 없는 주소가 정식입니다 — /privacy.html 은 /privacy 로 넘어갑니다.
+
+  한 페이지의 여러 말을 각각 <url> 로 적고, 그 안에서 서로를 xhtml:link 로
+  가리킵니다. **짝을 이루는 모든 주소가 서로를 빠짐없이 가리켜야** 검색엔진이
+  같은 페이지의 다른 말로 알아봅니다 — 한쪽만 가리키면 두 개의 다른
+  페이지로 잡히고, 그러면 서로 순위를 깎아먹습니다.
+
+  x-default 가 한국어인 것은, 어느 말도 짚어지지 않은 방문에 아직 한국어를
+  먼저 보이는 편이 맞기 때문입니다. 쓰시는 분이 전부 한국 목회자입니다.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://preachinglab.cloud/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://preachinglab.cloud/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://preachinglab.cloud/es/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://preachinglab.cloud/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
     <loc>https://preachinglab.cloud/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/privacy"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://preachinglab.cloud/en/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/privacy"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
     <loc>https://preachinglab.cloud/terms</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/terms"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/terms"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://preachinglab.cloud/en/terms</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/terms"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/terms"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>

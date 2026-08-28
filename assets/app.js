@@ -57,6 +57,82 @@ if (reduced || !('IntersectionObserver' in window)) {
   items.forEach((el) => io.observe(el));
 }
 
+
+/* ── 무슨 말로 말할 것인가 ───────────────────── */
+//
+// **페이지의 `<html lang>` 을 그대로 봅니다.** 페이지마다 숨은 칸을 두는
+// 것보다 낫습니다 — 그 칸은 페이지의 실제 언어와 어긋날 수 있고, 어긋나면
+// 영어 화면에서 한국어 안내가 뜹니다. `lang` 은 어긋날 수가 없습니다.
+//
+// 아래 한국어 문장은 지금 쓰이던 것을 한 글자도 바꾸지 않고 옮긴 것입니다.
+const L10N = {
+  ko: {
+    fillMarked: '표시된 칸을 채워주세요.',
+    needEmail: '리포트를 받으실 이메일 주소를 적어주세요.',
+    sending: '보내는 중…',
+    received: '신청이 접수되었습니다. 하루 안에 답장드리겠습니다.',
+    checkInput: '입력을 확인해 주세요.',
+    humanFailed: '사람 확인에 실패했습니다. 잠시 후 다시 눌러주세요.',
+    mailFallback: '전송이 안 되어 메일 앱으로 대신 엽니다.',
+    // 메일 앱으로 물러날 때 채워 넣는 글. 받는 쪽은 우리입니다.
+    mailSubject: (name) => `[파일럿 신청] ${name}`,
+    mailName: '성함',
+    mailChurch: '교회',
+    mailEmail: '이메일',
+    mailLink: '설교 영상',
+    mailGoal: '지향하는 설교',
+  },
+  en: {
+    fillMarked: 'Please fill in the marked fields.',
+    needEmail: 'Please give the email address where you will receive the report.',
+    sending: 'Sending…',
+    received: 'We have your request. We will write back within a day.',
+    checkInput: 'Please check what you entered.',
+    humanFailed: 'The human check did not pass. Please wait a moment and press again.',
+    mailFallback: 'That did not send, so we are opening your mail app instead.',
+    mailSubject: (name) => `[Application] ${name}`,
+    mailName: 'Name',
+    mailChurch: 'Church',
+    mailEmail: 'Email',
+    mailLink: 'Sermon video',
+    mailGoal: 'The preaching they are aiming at',
+  },
+  es: {
+    fillMarked: 'Complete los campos señalados.',
+    needEmail: 'Escriba el correo donde recibirá el informe.',
+    sending: 'Enviando…',
+    received: 'Recibimos su solicitud. Le respondemos dentro de un día.',
+    checkInput: 'Revise lo que escribió.',
+    humanFailed: 'No pasó la verificación. Espere un momento y vuelva a pulsar.',
+    mailFallback: 'No se pudo enviar, así que abrimos su aplicación de correo.',
+    mailSubject: (name) => `[Solicitud] ${name}`,
+    mailName: 'Nombre',
+    mailChurch: 'Iglesia',
+    mailEmail: 'Correo',
+    mailLink: 'Video del sermón',
+    mailGoal: 'La predicación a la que apunta',
+  },
+  pt: {
+    fillMarked: 'Preencha os campos marcados.',
+    needEmail: 'Escreva o e-mail onde vai receber o relatório.',
+    sending: 'Enviando…',
+    received: 'Recebemos seu pedido. Respondemos dentro de um dia.',
+    checkInput: 'Confira o que você escreveu.',
+    humanFailed: 'A verificação não passou. Espere um instante e clique de novo.',
+    mailFallback: 'Não deu para enviar, então abrimos seu aplicativo de e-mail.',
+    mailSubject: (name) => `[Pedido] ${name}`,
+    mailName: 'Nome',
+    mailChurch: 'Igreja',
+    mailEmail: 'E-mail',
+    mailLink: 'Vídeo do sermão',
+    mailGoal: 'A pregação que busca',
+  },
+};
+
+/** 이 페이지의 말. 모르는 값이면 한국어입니다. */
+const LANG = (document.documentElement.lang || 'ko').toLowerCase().split('-')[0];
+const T = L10N[LANG] ?? L10N.ko;
+
 /* ── 신청 폼 ─────────────────────────────────── */
 // /apply (Cloudflare Pages Function) 로 보냅니다.
 // 실패하면 예전 방식인 메일 앱 열기로 물러납니다 — 신청을 흘리는 것보다 낫습니다.
@@ -80,17 +156,17 @@ const turnstileToken = () =>
 /** 서버가 안 될 때 쓰는 예전 경로. 메일 앱에 내용을 채워 엽니다. */
 function mailtoFallback() {
   const lines = [
-    `성함: ${v('f-name')}`,
-    `교회: ${v('f-church') || '-'}`,
-    `이메일: ${v('f-contact')}`,
-    `설교 영상: ${v('f-link') || '-'}`,
+    `${T.mailName}: ${v('f-name')}`,
+    `${T.mailChurch}: ${v('f-church') || '-'}`,
+    `${T.mailEmail}: ${v('f-contact')}`,
+    `${T.mailLink}: ${v('f-link') || '-'}`,
     '',
-    '지향하는 설교:',
+    `${T.mailGoal}:`,
     v('f-goal') || '-',
   ];
   location.href =
     `mailto:${CONTACT_EMAIL}` +
-    `?subject=${encodeURIComponent(`[파일럿 신청] ${v('f-name')}`)}` +
+    `?subject=${encodeURIComponent(T.mailSubject(v('f-name')))}` +
     `&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
@@ -102,7 +178,7 @@ form?.addEventListener('submit', async (e) => {
     if (!el.value.trim()) {
       el.focus();
       el.setAttribute('aria-invalid', 'true');
-      say('bad', '표시된 칸을 채워주세요.');
+      say('bad', T.fillMarked);
       return;
     }
     el.removeAttribute('aria-invalid');
@@ -114,13 +190,13 @@ form?.addEventListener('submit', async (e) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contactEl.value.trim())) {
     contactEl.focus();
     contactEl.setAttribute('aria-invalid', 'true');
-    say('bad', '리포트를 받으실 이메일 주소를 적어주세요.');
+    say('bad', T.needEmail);
     return;
   }
   contactEl.removeAttribute('aria-invalid');
 
   button.disabled = true;
-  say('busy', '보내는 중…');
+  say('busy', T.sending);
 
   try {
     const res = await fetch('/apply', {
@@ -134,6 +210,8 @@ form?.addEventListener('submit', async (e) => {
         goal: v('f-goal'),
         website: v('f-website'), // 사람에게는 안 보이는 칸 — 봇 거르기
         turnstile: turnstileToken(),
+        // 접수 확인 메일을 무슨 말로 보낼지. 이 페이지의 <html lang> 입니다.
+        locale: LANG,
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -145,7 +223,7 @@ form?.addEventListener('submit', async (e) => {
       form.querySelectorAll('input, textarea').forEach((el) => (el.value = ''));
       // 방문과 신청을 나란히 놓아야 "와서 안 누르는 것" 이 보입니다.
       countVisit('/apply-done');
-      say('good', '신청이 접수되었습니다. 하루 안에 답장드리겠습니다.');
+      say('good', T.received);
       button.disabled = false;
       return;
     }
@@ -154,7 +232,7 @@ form?.addEventListener('submit', async (e) => {
       const el = document.getElementById(`f-${data.field}`);
       el?.focus();
       el?.setAttribute('aria-invalid', 'true');
-      say('bad', data.error ?? '입력을 확인해 주세요.');
+      say('bad', data.error ?? T.checkInput);
       button.disabled = false;
       return;
     }
@@ -162,7 +240,7 @@ form?.addEventListener('submit', async (e) => {
     // 사람 확인 실패. 메일 앱으로 밀지 않습니다 — 봇이면 그쪽도 막아야 하고,
     // 사람이면 잠깐 뒤 다시 누르는 것으로 대개 통과합니다.
     if (res.status === 403) {
-      say('bad', data.error ?? '사람 확인에 실패했습니다. 잠시 후 다시 눌러주세요.');
+      say('bad', data.error ?? T.humanFailed);
       button.disabled = false;
       return;
     }
@@ -170,7 +248,7 @@ form?.addEventListener('submit', async (e) => {
     throw new Error(data.error ?? `HTTP ${res.status}`);
   } catch {
     window.turnstile?.reset();
-    say('bad', '전송이 안 되어 메일 앱으로 대신 엽니다.');
+    say('bad', T.mailFallback);
     button.disabled = false;
     mailtoFallback();
   }

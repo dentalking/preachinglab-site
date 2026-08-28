@@ -1,0 +1,493 @@
+<!doctype html>
+<!--
+  스페인어 랜딩.
+
+  **영어판에서 구조를 그대로 옮긴 것입니다.** 클래스도 순서도 같습니다 —
+  두 벌로 두면 반드시 갈라지고, 갈라진 쪽이 남의 페이지처럼 보입니다.
+  영어판을 고치면 이 파일도 같이 보셔야 합니다.
+
+  **이 스페인어 문장들은 실제 목회자와 다듬은 적이 없습니다.** 한국어는
+  목사님들과 여러 번 고쳐진 것이고 이것은 그 과정을 안 거쳤습니다.
+  usted 로 갑니다. 첫 사용자가 오시면 반드시 다시 볼 자리입니다.
+
+  ── 정해진 것 (2026-08-28) ──────────────────────────────────
+
+    ① 행동 유도 — **「안내를 받는다」**. 눈썹·제목·설명·버튼·보낸 뒤 문구·
+       확인 메일이 한 벌입니다. 「설교를 보내십시오」로 하지 않은 것은,
+       폼을 넣는다고 설교가 바로 처리되지 않기 때문입니다 — 안내 메일이
+       먼저 가고 설교는 앱에서 보내십니다. 버튼과 실제로 일어나는 일이
+       어긋나면 안 됩니다.
+
+    ② 가격 — **숫자를 적지 않습니다.** 앱 설정 화면의 `settings.priceNote`
+       와 한 글자도 같은 문장을 씁니다. 한쪽을 고치면 반드시 다른 쪽도
+       고쳐야 합니다.
+
+    ③ 어느 기기 — 구글 로그인 빌드가 Play 내부 테스트로 올라가면서
+       사실이 바뀌었습니다. 자세한 것은 그 문단 위 주석에.
+
+    ④ 리포트 예시 — **한국어 리포트를 옮긴 것**이고 그렇게 밝혀 두었습니다.
+       지어낸 영어 리포트를 "실제 리포트에서 발췌" 라고 내보낼 수는
+       없습니다. 그 말의 리포트가 실제로 하나 나오면 그때 바꾸는 편이
+       낫습니다.
+
+  ── 배포 전에 ───────────────────────────────────────────────
+
+  **구글 로그인이 실제로 되는 것을 폰에서 확인한 뒤에 배포합니다.**
+  순서가 뒤집히면 들어올 수 없는 분들을 부르게 됩니다.
+
+  ── 하지 않은 것 ────────────────────────────────────────────
+
+  분석 도구를 붙이지 않았습니다. 한국어 랜딩과 같은 이유입니다 —
+  설교를 맡아 두는 서비스라 IP·쿠키 없이 자체 /v 로만 셉니다.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preaching Lab — ¿Cómo se escuchó el sermón del domingo pasado?</title>
+<meta name="description" content="Envíe un enlace o una grabación. Ponemos su sermón en texto y le mostramos cómo se escucharon su estructura, su manejo del texto, su comunicación y su aplicación — cada punto citado de lo que usted realmente dijo. No hace falta cámara. Solo lo ve el predicador.">
+<meta property="og:title" content="Preaching Lab">
+<meta property="og:description" content="¿Cómo se escuchó el sermón del domingo pasado? Un informe de reflexión para predicadores.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://preachinglab.cloud/es/">
+<meta property="og:site_name" content="Preaching Lab">
+<!-- 공유 카드 이미지는 한국어 랜딩과 같은 것을 씁니다. 그림에 글자가 없어
+     말을 가리지 않습니다. alt 만 영어로 답니다. -->
+<meta property="og:image" content="https://preachinglab.cloud/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="¿Cómo se escuchó el sermón del domingo pasado? — Preaching Lab">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://preachinglab.cloud/es/">
+<link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/">
+<link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/">
+<link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/">
+<link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/">
+<link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>✎</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 표제 글꼴만 갈아끼웁니다. Gowun Batang 은 한글 본문을 위한 것이고
+     라틴 글자는 곁다리라, 영어 표제로 쓰면 자간이 성깁니다.
+     en/privacy.html 이 이미 같은 방식으로 Lora 를 씁니다. -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css?v=e02ee48c">
+<style>
+  :root { --display: 'Lora', Georgia, 'Times New Roman', serif; }
+  /* keep-all 은 한국어에서 낱말이 갈라지지 않게 하려고 건 것입니다.
+     영어에서는 긴 URL 이 상자를 뚫고 나가는 것만 막으면 됩니다. */
+  body { word-break: normal; overflow-wrap: anywhere; }
+
+  .lang-switch { font-size: .86rem; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="wordmark" href="#top">
+    <span class="mark">✎</span>
+    <span>Preaching&nbsp;Lab</span>
+  </a>
+  <a class="btn btn-ghost lang-switch" href="/en/" hreflang="en" lang="en">English</a>
+</header>
+
+<main id="top">
+
+  <!-- ─────────────────────────────────────────────
+       Hero — 설교 원고 한 대목과, 그 여백에 붙는 주석.
+       제품이 하는 일을 제품의 재료로 보여준다.
+  ────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+
+      <div class="hero-copy">
+        <p class="eyebrow reveal">Un informe de reflexión para predicadores</p>
+        <h1 class="reveal" style="--d:.06s">
+          ¿Cómo se escuchó<br>el sermón del <em>domingo</em>?
+        </h1>
+        <p class="lede reveal" style="--d:.12s">
+          La congregación dice “fui bendecido” y ahí se detiene.
+          Envíenos un enlace o una grabación y le mostraremos cómo se escuchó —
+          con sus propias palabras al lado de cada punto.
+        </p>
+        <div class="hero-actions reveal" style="--d:.18s">
+          <a class="btn btn-solid" href="#apply">Pruébelo con un sermón</a>
+          <a class="btn btn-quiet" href="#sample">Ver primero un informe real ↓</a>
+        </div>
+      </div>
+
+      <!-- 시그니처: 원고와 그 여백에 붙는 주석 -->
+      <figure class="specimen">
+        <blockquote class="manuscript reveal" style="--d:.3s">
+          <span class="ms-label">Del sermón</span>
+          <p>“Por eso siempre debemos permanecer humildes. El lugar donde ayer fui
+             bendecido puede ser el lugar donde hoy soy probado.”</p>
+        </blockquote>
+
+        <svg class="tether" viewBox="0 0 60 54" aria-hidden="true">
+          <path d="M14 2 C 14 26, 30 24, 46 50" fill="none"/>
+        </svg>
+
+        <div class="annotation reveal" style="--d:.66s">
+          <p class="an-head"><span class="pen">✎</span> Dele a esta idea una acción sobre la cual pararse</p>
+          <p class="an-why">
+            La humildad es un estado del corazón, así que no queda nada por hacer en
+            el momento en que salen del templo. Es la idea más aguda del sermón
+            y es la que cierra de forma más vaga.
+          </p>
+          <p class="an-fix">
+            <b>Pruébelo así</b> — “Haga una sola cosa esta semana. Escriba aquello en
+            lo que usted cree ser mejor que los demás. Ahí es donde va a
+            tropezar.”
+          </p>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ───────────────── 문제 ───────────────── -->
+  <section class="section problem">
+    <div class="wrap narrow">
+      <h2 class="reveal">Puede predicar veinte años<br>y nunca recibir una devolución</h2>
+      <div class="cols">
+        <p class="reveal" style="--d:.06s">
+          Lo que la gente dice al salir suele detenerse en “fui bendecido”.
+          Es amable, y no le dice nada sobre qué hacer distinto la semana que viene.
+        </p>
+        <p class="reveal" style="--d:.12s">
+          Preguntarle a un colega no es más fácil. En ningún presbiterio ni
+          asociación hay un espacio donde se pesen los púlpitos unos a otros.
+        </p>
+        <p class="reveal" style="--d:.18s">
+          Así que la mayoría de los predicadores revisan su propia predicación
+          <b>solo con la memoria</b>. La memoria guarda lo que salió bien.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── 과정 ───────────────── -->
+  <section class="section flow">
+    <div class="wrap">
+      <h2 class="reveal">Usted solo envía el sermón</h2>
+      <ol class="steps">
+        <li class="reveal">
+          <span class="step-n">01</span>
+          <h3>Envíe un video o una grabación desde la aplicación</h3>
+          <p>Sirve un enlace de YouTube, o puede grabar ahí mismo en la aplicación.
+             Puede enviar el culto completo — nosotros encontramos el sermón
+             dentro. Registre el canal de YouTube de su iglesia y la aplicación
+             detectará los sermones nuevos y le preguntará primero.</p>
+        </li>
+        <li class="reveal" style="--d:.08s">
+          <span class="step-n">02</span>
+          <h3>Ponemos el sermón en texto</h3>
+          <p>Registre el nombre de su iglesia, su propio nombre y los nombres bíblicos
+             que usa a menudo, y habrá menos que malinterpretar.</p>
+        </li>
+        <li class="reveal" style="--d:.16s">
+          <span class="step-n">03</span>
+          <h3>La aplicación le avisa antes de la mañana siguiente</h3>
+          <p>Valoraciones, el esquema del sermón, comentarios aspecto por aspecto y
+             algo en qué trabajar para el próximo. En papel, tómelo como un
+             <b>archivo A4 con números de página</b>; también puede leerlo en
+             la pantalla más grande de una computadora.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ───────────────── 샘플 ───────────────── -->
+  <section class="section sample" id="sample">
+    <div class="wrap">
+      <p class="eyebrow reveal">De un informe real</p>
+      <h2 class="reveal" style="--d:.06s">Esto es lo que llega</h2>
+      <p class="note reveal" style="--d:.1s">
+        Tomado de un informe real de un pastor que usa Preaching Lab, y
+        <b>traducido del coreano</b> — el culto, la iglesia y el predicador
+        son de habla coreana. La iglesia, el nombre, el título del sermón y
+        el pasaje están ocultos.
+      </p>
+
+      <article class="report reveal" style="--d:.14s">
+        <header class="report-head">
+          <p class="rh-meta">Una reunión de oración de miércoles · 47 min</p>
+          <h3 class="masked">Título del sermón <span>reservado</span></h3>
+        </header>
+
+        <div class="scores">
+          <div class="score"><span>La estructura y el hilo del argumento</span><b data-n="4">4</b><i class="pips" data-n="4"></i><em>Un punto fuerte</em></div>
+          <div class="score"><span>La fidelidad al texto bíblico</span><b data-n="3">3</b><i class="pips" data-n="3"></i><em>Transmitido con fidelidad</em></div>
+          <div class="score"><span>La comunicación y el uso del lenguaje</span><b data-n="3">3</b><i class="pips" data-n="3"></i><em>Transmitido con fidelidad</em></div>
+          <div class="score"><span>Cuán concreta es la aplicación</span><b data-n="2">2</b><i class="pips" data-n="2"></i><em>Para trabajar primero</em></div>
+          <div class="score"><span>Imágenes y empatía</span><b data-n="4">4</b><i class="pips" data-n="4"></i><em>Un punto fuerte</em></div>
+        </div>
+        <p class="scores-note">
+          No son calificaciones. Son una manera de elegir dónde poner el esfuerzo
+          en el próximo sermón.
+          <b>El quinto aspecto lo eligió este mismo pastor.</b>
+        </p>
+
+        <div class="finding">
+          <p class="f-head">Déjeles una imagen al bajar del púlpito</p>
+          <p class="f-why">
+            Antes le dio a la congregación varias escenas que podían ver con los
+            ojos, pero la conclusión termina en abstracciones. La gente se lleva
+            lo último que escuchó.
+          </p>
+          <blockquote class="f-quote">
+            “Mi experiencia, mi testimonio — no son la norma de mi vida.
+            Creo que es la palabra de Dios la roca que nos edifica.”
+          </blockquote>
+          <p class="f-fix">
+            <b>Pruébelo así</b> — traiga de vuelta una de las imágenes que ya usó.
+            No necesita una imagen nueva. Basta con devolver a la conclusión una
+            de las escenas que ya les mostró.
+          </p>
+        </div>
+      </article>
+
+      <p class="sample-tail reveal">
+        Cada punto viene con <b>una cita del sermón mismo</b>. No escribimos nada
+        que no podamos fundamentar. Y lo que proponemos en su lugar es
+        <b>una frase que usted podría usar desde el púlpito tal como está</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────── 누적 ───────────────── -->
+  <section class="section trend">
+    <div class="wrap">
+      <h2 class="reveal">Lo que un solo sermón no puede mostrar</h2>
+      <p class="lede narrow reveal" style="--d:.06s">
+        Cuando los informes se van acumulando, aparecen cosas que un solo sermón
+        nunca revela. Para eso sirve esto de verdad.
+      </p>
+      <div class="trend-grid">
+        <div class="tcard reveal">
+          <p class="t-label">Valoraciones con el tiempo</p>
+          <p class="t-line"><span>Cuán concreta es la aplicación</span> <span class="t-vals">2 → 3 → 4</span></p>
+          <p class="t-sub">Qué cambió a lo largo de ocho semanas</p>
+        </div>
+        <div class="tcard reveal" style="--d:.08s">
+          <p class="t-label">Una observación que vuelve</p>
+          <p class="t-line"><b>Tres seguidas</b> — la conclusión termina en abstracciones</p>
+          <p class="t-sub">Lo que ya corrigió, separado de lo que sigue ahí</p>
+        </div>
+        <div class="tcard reveal" style="--d:.16s">
+          <p class="t-label">Medidas del habla</p>
+          <p class="t-line">“ahora” <span class="t-vals">32 → 11</span></p>
+          <p class="t-sub">Contado, no juzgado</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── 안심 ───────────────── -->
+  <section class="section assure">
+    <div class="wrap narrow">
+      <h2 class="reveal">Cosas que conviene decir primero</h2>
+      <dl class="faq">
+        <div class="reveal">
+          <dt>¿Quién puede ver este informe?</dt>
+          <dd>
+            <b>Solo el predicador.</b> Ni la iglesia, ni el consejo, ni nosotros.
+            Aun cuando la iglesia tenga el contrato, está hecho de modo que un
+            pastor principal o un administrador no pueda abrir el informe de
+            otro ministro. Mostrárselo a alguien ocurre solo si el predicador lo hace.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Me inquieta que una IA evalúe un sermón.</dt>
+          <dd>
+            Es una reflexión, no una evaluación. No emitimos juicios teológicos.
+            Donde las tradiciones difieren no declaramos correcta a una parte;
+            solo mostramos con cuánta firmeza el punto se apoya en el texto.
+            El discernimiento final es siempre de quien está en el púlpito.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>¿Qué pasa con la transcripción de mi sermón?</dt>
+          <dd>
+            No se usa para entrenamiento. Usted decide cuánto tiempo se guarda, y la
+            borramos de inmediato si lo pide. Consideramos que un sermón es obra
+            propia del predicador.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Nuestra iglesia no filma el culto.</dt>
+          <dd>
+            <b>Basta con una grabación.</b> Sirve una nota de voz del teléfono.
+            Eso sí, dónde grabe decide el resultado. Una salida de la consola de
+            sonido, o una grabadora cerca del púlpito, es lo más preciso; un
+            teléfono dejado al fondo recoge la reverberación y el ruido de la
+            congregación, y el reconocimiento se vuelve borroso. Basta con
+            sentarse cerca del frente.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>¿Es preciso?</dt>
+          <dd>
+            Es reconocimiento de voz, así que habrá errores en el texto. Por eso está
+            hecho para no reprocharle al predicador un error de reconocimiento, y
+            por eso cada punto lleva una cita que usted mismo puede verificar. Un
+            solo punto equivocado y todo el informe deja de ser creíble.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ───────────────── 가격 ───────────────── -->
+  <section class="section pricing">
+    <div class="wrap">
+      <h2 class="reveal">Precio</h2>
+      <!--
+        **숫자를 적지 않습니다.** 한국조차 아직 시범 기간이고 유료 사용자가
+        없습니다. 없는 가격을 지어 적는 것은 이 서비스가 하지 않기로 한
+        종류의 일이고, 원화를 환율로 옮기는 것도 틀립니다 — 나라마다 지불
+        의사와 결제 수단이 다르고, `users.country` 로 통화를 가르도록
+        스키마가 준비되어 있습니다.
+
+        아래 문장은 앱 설정 화면(`app/src/lib/i18n/en.ts` 의
+        `settings.priceNote`)과 **한 글자도 같습니다.** 목사님이 앱에서
+        보시는 말과 랜딩이 갈리면, 둘 중 어느 쪽을 믿어야 할지 모르게
+        됩니다. 한쪽을 고치면 반드시 다른 쪽도 고쳐야 합니다.
+      -->
+      <p class="lede narrow reveal" style="--d:.06s">
+        Este es un período de prueba, así que es gratis. Si empezamos a cobrar se
+        lo diremos antes, y hasta entonces no se cobra nada.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────── 신청 ───────────────── -->
+  <section class="section apply" id="apply">
+    <div class="wrap narrow">
+      <!--
+        행동 유도. 사용자가 고르신 것은 **「안내를 받는다」** 입니다.
+
+        「설교를 보내십시오」로 하지 않은 이유 — 폼을 넣는다고 설교가 바로
+        처리되지 않습니다. 앱 설치 안내 메일이 먼저 가고, 설교는 앱에서
+        보내십니다. 버튼에 「Send a sermon」이라 적으면 그 자리에서 어긋납니다.
+
+        아래 세 문장과 `functions/apply.js` 의 확인 메일이 한 벌입니다.
+        하나를 고치면 나머지도 같이 보셔야 합니다.
+      -->
+      <p class="eyebrow reveal">Pruébelo con un sermón</p>
+      <h2 class="reveal" style="--d:.06s">¿Miramos uno de los suyos?</h2>
+      <p class="lede reveal" style="--d:.1s">
+        Díganos a dónde escribirle y le enviaremos lo necesario para instalar la
+        aplicación. El primer informe corre por nuestra cuenta.
+      </p>
+
+      <!--
+        어느 기기에서 쓸 수 있는가. 2026-08-28 에 사실이 바뀌었습니다 —
+        구글 로그인이 들어간 빌드(versionCode 9)가 Play 내부 테스트로
+        올라갔습니다. 그 전까지는 앱의 문이 카카오와 Apple 둘뿐이라
+        **한국 밖 안드로이드 목회자는 가입 자체가 되지 않았습니다.**
+
+        **「플레이스토어에서 받으세요」라고 쓰지 않습니다.** 아직 내부
+        테스트라 아무나 받을 수 있는 것이 아니고, 신청하시면 저희가
+        설치 링크를 보내드리는 흐름입니다. 위 설명이 이미 "보내드리는
+        것으로 설치하신다" 고 말하므로 여기서는 기기만 짚습니다.
+
+        **아이폰은 「곧」이라고 적지 않습니다.** iOS 앱은 App Store 에
+        올라간 적이 없고 날짜도 없습니다. 없는 날짜를 약속하는 대신
+        「아직」이라고만 하고, 알려드릴 길(이메일)은 이미 이 폼이 쥐고
+        있으므로 그것만 말합니다.
+
+        아이폰을 아예 언급하지 않는 길도 있었지만 그러지 않았습니다 —
+        이 페이지는 신청을 권하는 자리라, 아무 말이 없으면 아이폰
+        쓰시는 분이 되는 줄 알고 신청하셨다가 나중에 아십니다.
+        미리 아시는 편이 낫습니다.
+      -->
+      <p class="lede reveal" style="--d:.12s">
+        Hoy funciona en <b>Android</b>. Todavía no está listo para iPhone; si
+        nos deja su correo, le avisamos apenas lo esté.
+      </p>
+
+      <form class="apply-form reveal" style="--d:.16s" id="applyForm" novalidate>
+        <div class="field">
+          <label for="f-name">Su nombre</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Pastora Ana Díaz" required>
+        </div>
+        <div class="field">
+          <label for="f-church">Iglesia</label>
+          <input id="f-church" name="church" type="text" autocomplete="organization" placeholder="Iglesia Comunidad de Gracia">
+        </div>
+        <div class="field">
+          <label for="f-contact">Correo</label>
+          <input id="f-contact" name="contact" type="email" autocomplete="email" inputmode="email"
+            placeholder="pastor@example.com" required>
+          <p class="hint">Enviamos las instrucciones de la aplicación a esta dirección. Los informes se leen en la aplicación.</p>
+        </div>
+        <div class="field">
+          <label for="f-link">Enlace a un video o grabación del sermón <span class="opt">opcional</span></label>
+          <input id="f-link" name="link" type="text" placeholder="https://youtu.be/… o un enlace compartido" inputmode="url">
+          <p class="hint">Si hay un sermón con el que quiere que empecemos, póngalo aquí. Basta una
+            dirección de YouTube. También puede dejarlo vacío — instale la aplicación y envíe uno desde ahí.</p>
+        </div>
+        <div class="field">
+          <label for="f-goal">La predicación a la que apunta, si la tiene en palabras <span class="opt">opcional</span></label>
+          <textarea id="f-goal" name="goal" rows="3" placeholder="p. ej. clara para cualquiera, sin rigidez y fácil de imaginar"></textarea>
+          <p class="hint">Escríbala aquí y la añadimos al informe como un aspecto propio.</p>
+        </div>
+        <!-- 봇 거르기. 사람에게는 보이지 않고, 채워져 있으면 조용히 버립니다. -->
+        <div class="trap" aria-hidden="true">
+          <label for="f-website">Sitio web</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <!-- 사람 확인. interaction-only 라 평소에는 아무것도 보이지 않고,
+             의심스러울 때만 확인 상자가 나타납니다. -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAAEI8vrcA5igHQyM3"
+             data-appearance="interaction-only"
+             data-language="es"
+             data-size="flexible"
+             data-theme="light"></div>
+        <button class="btn btn-solid btn-block" type="submit">Envíenme la información</button>
+        <p class="form-status" id="applyStatus" role="status" aria-live="polite"></p>
+        <p class="form-note">
+          Al pulsar se envía directamente a nosotros. No se abrirá ninguna aplicación de correo.
+          Si prefiere escribirnos directamente,
+          <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>.
+        </p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="f-mark"><span class="mark">✎</span> Preaching Lab</p>
+    <p class="f-desc">
+      Le ayudamos a poner un sermón en texto y a mirarlo de nuevo. No lo calificamos.
+    </p>
+    <p class="f-fine">
+      Un informe es una opinión de referencia producida por reconocimiento de voz
+      y análisis de IA. Es un punto de partida para conversar, no una base para
+      juzgar. · <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>
+    </p>
+    <p class="f-fine">
+      <!-- 방침·약관은 아직 영어판뿐입니다. 스페인어판이 생기면 이 두 줄을
+           /es/privacy · /es/terms 로 옮기세요. 없는 주소를 미리 걸면
+           404 가 나가고, 그것이 방침 링크라면 심사에서 걸립니다. -->
+      <a href="/en/privacy" hreflang="en" lang="en">Privacy Policy</a> ·
+      <a href="/en/terms" hreflang="en" lang="en">Terms of Service</a>
+      · <a href="/en/" hreflang="en" lang="en">English</a>
+      · <a href="/" hreflang="ko" lang="ko">한국어</a>
+    </p>
+  </div>
+</footer>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="../assets/app.js?v=dc168eaa"></script>
+</body>
+</html>

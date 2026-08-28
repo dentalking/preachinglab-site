@@ -1,0 +1,484 @@
+<!doctype html>
+<!--
+  영어 랜딩.
+
+  한국어 index.html 의 구조와 클래스를 그대로 씁니다. 두 벌의 CSS 를 두면
+  반드시 갈라지고, 갈라진 쪽이 남의 페이지처럼 보입니다.
+
+  ── 정해진 것 (2026-08-28) ──────────────────────────────────
+
+    ① 행동 유도 — **「안내를 받는다」**. 눈썹·제목·설명·버튼·보낸 뒤 문구·
+       확인 메일이 한 벌입니다. 「설교를 보내십시오」로 하지 않은 것은,
+       폼을 넣는다고 설교가 바로 처리되지 않기 때문입니다 — 안내 메일이
+       먼저 가고 설교는 앱에서 보내십니다. 버튼과 실제로 일어나는 일이
+       어긋나면 안 됩니다.
+
+    ② 가격 — **숫자를 적지 않습니다.** 앱 설정 화면의 `settings.priceNote`
+       와 한 글자도 같은 문장을 씁니다. 한쪽을 고치면 반드시 다른 쪽도
+       고쳐야 합니다.
+
+    ③ 어느 기기 — 구글 로그인 빌드가 Play 내부 테스트로 올라가면서
+       사실이 바뀌었습니다. 자세한 것은 그 문단 위 주석에.
+
+    ④ 리포트 예시 — **한국어 리포트를 옮긴 것**이고 그렇게 밝혀 두었습니다.
+       지어낸 영어 리포트를 "실제 리포트에서 발췌" 라고 내보낼 수는
+       없습니다. 그 말의 리포트가 실제로 하나 나오면 그때 바꾸는 편이
+       낫습니다.
+
+  ── 배포 전에 ───────────────────────────────────────────────
+
+  **구글 로그인이 실제로 되는 것을 폰에서 확인한 뒤에 배포합니다.**
+  순서가 뒤집히면 들어올 수 없는 분들을 부르게 됩니다.
+
+  ── 하지 않은 것 ────────────────────────────────────────────
+
+  분석 도구를 붙이지 않았습니다. 한국어 랜딩과 같은 이유입니다 —
+  설교를 맡아 두는 서비스라 IP·쿠키 없이 자체 /v 로만 셉니다.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preaching Lab — How did last Sunday's sermon land?</title>
+<meta name="description" content="Send one link or one recording. We put your sermon into text and show you how its structure, handling of the text, delivery and application came across — each point quoted from what you actually said. You don't need a camera. Only the preacher sees it.">
+<meta property="og:title" content="Preaching Lab">
+<meta property="og:description" content="How did last Sunday's sermon land? A reflection report for preachers.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ko_KR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:url" content="https://preachinglab.cloud/en/">
+<meta property="og:site_name" content="Preaching Lab">
+<!-- 공유 카드 이미지는 한국어 랜딩과 같은 것을 씁니다. 그림에 글자가 없어
+     말을 가리지 않습니다. alt 만 영어로 답니다. -->
+<meta property="og:image" content="https://preachinglab.cloud/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="How did last Sunday's sermon land? — Preaching Lab">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://preachinglab.cloud/en/">
+<link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/">
+<link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/">
+<link rel="alternate" hreflang="es" href="https://preachinglab.cloud/es/">
+<link rel="alternate" hreflang="pt" href="https://preachinglab.cloud/pt/">
+<link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>✎</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 표제 글꼴만 갈아끼웁니다. Gowun Batang 은 한글 본문을 위한 것이고
+     라틴 글자는 곁다리라, 영어 표제로 쓰면 자간이 성깁니다.
+     en/privacy.html 이 이미 같은 방식으로 Lora 를 씁니다. -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css?v=e02ee48c">
+<style>
+  :root { --display: 'Lora', Georgia, 'Times New Roman', serif; }
+  /* keep-all 은 한국어에서 낱말이 갈라지지 않게 하려고 건 것입니다.
+     영어에서는 긴 URL 이 상자를 뚫고 나가는 것만 막으면 됩니다. */
+  body { word-break: normal; overflow-wrap: anywhere; }
+
+  .lang-switch { font-size: .86rem; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="wordmark" href="#top">
+    <span class="mark">✎</span>
+    <span>Preaching&nbsp;Lab</span>
+  </a>
+  <a class="btn btn-ghost lang-switch" href="/" hreflang="ko" lang="ko">한국어</a>
+</header>
+
+<main id="top">
+
+  <!-- ─────────────────────────────────────────────
+       Hero — 설교 원고 한 대목과, 그 여백에 붙는 주석.
+       제품이 하는 일을 제품의 재료로 보여준다.
+  ────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+
+      <div class="hero-copy">
+        <p class="eyebrow reveal">A reflection report for preachers</p>
+        <h1 class="reveal" style="--d:.06s">
+          How did last Sunday's<br>sermon <em>land</em>?
+        </h1>
+        <p class="lede reveal" style="--d:.12s">
+          The congregation says “I was blessed,” and stops there.
+          Send us one link or one recording, and we will show you how it
+          came across — with the words you actually said beside every point.
+        </p>
+        <div class="hero-actions reveal" style="--d:.18s">
+          <a class="btn btn-solid" href="#apply">Try it with one sermon</a>
+          <a class="btn btn-quiet" href="#sample">See a real report first ↓</a>
+        </div>
+      </div>
+
+      <!-- 시그니처: 원고와 그 여백에 붙는 주석 -->
+      <figure class="specimen">
+        <blockquote class="manuscript reveal" style="--d:.3s">
+          <span class="ms-label">From the sermon</span>
+          <p>“And so we must always stay humble. The place where I was
+             blessed yesterday can be the place where I am tested today.”</p>
+        </blockquote>
+
+        <svg class="tether" viewBox="0 0 60 54" aria-hidden="true">
+          <path d="M14 2 C 14 26, 30 24, 46 50" fill="none"/>
+        </svg>
+
+        <div class="annotation reveal" style="--d:.66s">
+          <p class="an-head"><span class="pen">✎</span> Give this insight one action to stand on</p>
+          <p class="an-why">
+            Humility is a state of the heart, so nothing is left to do the moment
+            they walk out of the building. This is the sharpest insight in the
+            sermon, and it closes the most vaguely.
+          </p>
+          <p class="an-fix">
+            <b>Try it this way</b> — “Do one thing this week. Write down the one
+            thing you believe you are better at than others. That is where you
+            will stumble.”
+          </p>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ───────────────── 문제 ───────────────── -->
+  <section class="section problem">
+    <div class="wrap narrow">
+      <h2 class="reveal">You can preach for twenty years<br>and never get feedback</h2>
+      <div class="cols">
+        <p class="reveal" style="--d:.06s">
+          What people say after the service usually stops at “I was blessed.”
+          It is kind, and it tells you nothing about what to do differently next week.
+        </p>
+        <p class="reveal" style="--d:.12s">
+          Asking a fellow pastor is no easier. There is no room in any
+          presbytery or association where you weigh each other's pulpits.
+        </p>
+        <p class="reveal" style="--d:.18s">
+          So most preachers look back on their own preaching
+          <b>through memory alone</b>. Memory keeps the parts that went well.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── 과정 ───────────────── -->
+  <section class="section flow">
+    <div class="wrap">
+      <h2 class="reveal">All you do is send the sermon</h2>
+      <ol class="steps">
+        <li class="reveal">
+          <span class="step-n">01</span>
+          <h3>Send a video or a recording from the app</h3>
+          <p>A YouTube link works, or you can record right there in the app.
+             You can send the whole service — we find the sermon inside it.
+             Register your church's YouTube channel and the app will spot new
+             sermons and ask you first.</p>
+        </li>
+        <li class="reveal" style="--d:.08s">
+          <span class="step-n">02</span>
+          <h3>We put the sermon into text</h3>
+          <p>Register your church name, your own name, and the biblical names
+             you use often, and there is less to misread.</p>
+        </li>
+        <li class="reveal" style="--d:.16s">
+          <span class="step-n">03</span>
+          <h3>The app tells you before the next morning</h3>
+          <p>Scores, the sermon outline, feedback area by area, and something
+             to work on for the next one. For paper, take it as an
+             <b>A4 file with page numbers</b>; you can also read it on a
+             computer's larger screen.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ───────────────── 샘플 ───────────────── -->
+  <section class="section sample" id="sample">
+    <div class="wrap">
+      <p class="eyebrow reveal">From an actual report</p>
+      <h2 class="reveal" style="--d:.06s">This is what arrives</h2>
+      <p class="note reveal" style="--d:.1s">
+        Taken from a real report for a pastor using Preaching Lab, and
+        <b>translated from Korean</b> — the service, the church and the
+        preacher are Korean-speaking. Church, name, sermon title and passage
+        are hidden.
+      </p>
+
+      <article class="report reveal" style="--d:.14s">
+        <header class="report-head">
+          <p class="rh-meta">A Wednesday prayer meeting · 47 min</p>
+          <h3 class="masked">Sermon title <span>withheld</span></h3>
+        </header>
+
+        <div class="scores">
+          <div class="score"><span>Structure and the flow of the argument</span><b data-n="4">4</b><i class="pips" data-n="4"></i><em>A strength</em></div>
+          <div class="score"><span>Faithfulness to the biblical text</span><b data-n="3">3</b><i class="pips" data-n="3"></i><em>Faithfully delivered</em></div>
+          <div class="score"><span>Delivery and use of language</span><b data-n="3">3</b><i class="pips" data-n="3"></i><em>Faithfully delivered</em></div>
+          <div class="score"><span>How concrete the application is</span><b data-n="2">2</b><i class="pips" data-n="2"></i><em>Worth working on first</em></div>
+          <div class="score"><span>Imagery and empathy</span><b data-n="4">4</b><i class="pips" data-n="4"></i><em>A strength</em></div>
+        </div>
+        <p class="scores-note">
+          These are not grades. They are a way to choose where to put your effort
+          in the next sermon.
+          <b>The fifth measure is one this pastor chose himself.</b>
+        </p>
+
+        <div class="finding">
+          <p class="f-head">Leave them with one picture as you step down</p>
+          <p class="f-why">
+            Earlier you gave the congregation several scenes they could see with
+            their eyes, but the conclusion ends in abstractions. People carry out
+            what they heard last.
+          </p>
+          <blockquote class="f-quote">
+            “My experience, my testimony — these are not the standard of my life.
+            I believe it is the word of God that is the rock building us up.”
+          </blockquote>
+          <p class="f-fix">
+            <b>Try it this way</b> — bring back one of the pictures you already
+            used. You do not need a new image. Just return one of the scenes you
+            have already shown them to the conclusion.
+          </p>
+        </div>
+      </article>
+
+      <p class="sample-tail reveal">
+        Every point comes with <b>a quotation from the sermon itself</b>. We do not
+        write anything we cannot ground. And what we suggest instead is
+        <b>a sentence you could use from the pulpit as it stands</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────── 누적 ───────────────── -->
+  <section class="section trend">
+    <div class="wrap">
+      <h2 class="reveal">What one sermon cannot show</h2>
+      <p class="lede narrow reveal" style="--d:.06s">
+        Once the reports start stacking up, things surface that a single sermon
+        will never reveal. That is what this is actually for.
+      </p>
+      <div class="trend-grid">
+        <div class="tcard reveal">
+          <p class="t-label">Scores over time</p>
+          <p class="t-line"><span>How concrete the application is</span> <span class="t-vals">2 → 3 → 4</span></p>
+          <p class="t-sub">What changed across eight weeks</p>
+        </div>
+        <div class="tcard reveal" style="--d:.08s">
+          <p class="t-label">A note that keeps returning</p>
+          <p class="t-line"><b>Three in a row</b> — the conclusion ends in abstractions</p>
+          <p class="t-sub">What you have fixed, kept apart from what is still there</p>
+        </div>
+        <div class="tcard reveal" style="--d:.16s">
+          <p class="t-label">Speaking measures</p>
+          <p class="t-line">“now” <span class="t-vals">32 → 11</span></p>
+          <p class="t-sub">Counted, not judged</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── 안심 ───────────────── -->
+  <section class="section assure">
+    <div class="wrap narrow">
+      <h2 class="reveal">Things worth saying first</h2>
+      <dl class="faq">
+        <div class="reveal">
+          <dt>Who can see this report?</dt>
+          <dd>
+            <b>Only the preacher.</b> Not the church, not the board, not us.
+            Even where a church holds the contract, it is built so that a senior
+            pastor or an administrator cannot open an individual minister's
+            report. Showing it to someone happens only when the preacher does it.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>I am uneasy about AI assessing a sermon.</dt>
+          <dd>
+            It is a reflection, not an assessment. We make no theological
+            judgements. Where traditions differ we do not declare one side
+            correct; we only show how firmly the point stands on the text.
+            The final discernment always belongs to the one in the pulpit.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>What happens to the transcript of my sermon?</dt>
+          <dd>
+            It is not used for training. You decide how long it is kept, and we
+            delete it at once if you ask. We consider a sermon to be the
+            preacher's own work.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Our church does not film the service.</dt>
+          <dd>
+            <b>A recording is enough.</b> A voice memo from a phone will do.
+            Where you record does decide the result, though. A feed from the
+            sound desk, or a recorder near the pulpit, is the most accurate; a
+            phone left at the back picks up reverberation and the noise of the
+            congregation, and the recognition blurs. Sitting near the front is
+            enough.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Is it accurate?</dt>
+          <dd>
+            It is speech recognition, so there will be mistakes in the text. That
+            is why it is built not to fault the preacher for a recognition error,
+            and why every point carries a quotation you can check yourself. One
+            wrong point and the whole report stops being believable.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ───────────────── 가격 ───────────────── -->
+  <section class="section pricing">
+    <div class="wrap">
+      <h2 class="reveal">Pricing</h2>
+      <!--
+        **숫자를 적지 않습니다.** 한국조차 아직 시범 기간이고 유료 사용자가
+        없습니다. 없는 가격을 지어 적는 것은 이 서비스가 하지 않기로 한
+        종류의 일이고, 원화를 환율로 옮기는 것도 틀립니다 — 나라마다 지불
+        의사와 결제 수단이 다르고, `users.country` 로 통화를 가르도록
+        스키마가 준비되어 있습니다.
+
+        아래 문장은 앱 설정 화면(`app/src/lib/i18n/en.ts` 의
+        `settings.priceNote`)과 **한 글자도 같습니다.** 목사님이 앱에서
+        보시는 말과 랜딩이 갈리면, 둘 중 어느 쪽을 믿어야 할지 모르게
+        됩니다. 한쪽을 고치면 반드시 다른 쪽도 고쳐야 합니다.
+      -->
+      <p class="lede narrow reveal" style="--d:.06s">
+        This is a pilot period, so it is free. If we begin charging we will
+        tell you beforehand, and nothing is billed until then.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────── 신청 ───────────────── -->
+  <section class="section apply" id="apply">
+    <div class="wrap narrow">
+      <!--
+        행동 유도. 사용자가 고르신 것은 **「안내를 받는다」** 입니다.
+
+        「설교를 보내십시오」로 하지 않은 이유 — 폼을 넣는다고 설교가 바로
+        처리되지 않습니다. 앱 설치 안내 메일이 먼저 가고, 설교는 앱에서
+        보내십니다. 버튼에 「Send a sermon」이라 적으면 그 자리에서 어긋납니다.
+
+        아래 세 문장과 `functions/apply.js` 의 확인 메일이 한 벌입니다.
+        하나를 고치면 나머지도 같이 보셔야 합니다.
+      -->
+      <p class="eyebrow reveal">Try it with one sermon</p>
+      <h2 class="reveal" style="--d:.06s">Shall we look at one of yours?</h2>
+      <p class="lede reveal" style="--d:.1s">
+        Tell us where to write, and we will send you what you need to install
+        the app. Your first report is on us.
+      </p>
+
+      <!--
+        어느 기기에서 쓸 수 있는가. 2026-08-28 에 사실이 바뀌었습니다 —
+        구글 로그인이 들어간 빌드(versionCode 9)가 Play 내부 테스트로
+        올라갔습니다. 그 전까지는 앱의 문이 카카오와 Apple 둘뿐이라
+        **한국 밖 안드로이드 목회자는 가입 자체가 되지 않았습니다.**
+
+        **「플레이스토어에서 받으세요」라고 쓰지 않습니다.** 아직 내부
+        테스트라 아무나 받을 수 있는 것이 아니고, 신청하시면 저희가
+        설치 링크를 보내드리는 흐름입니다. 위 설명이 이미 "보내드리는
+        것으로 설치하신다" 고 말하므로 여기서는 기기만 짚습니다.
+
+        **아이폰은 「곧」이라고 적지 않습니다.** iOS 앱은 App Store 에
+        올라간 적이 없고 날짜도 없습니다. 없는 날짜를 약속하는 대신
+        「아직」이라고만 하고, 알려드릴 길(이메일)은 이미 이 폼이 쥐고
+        있으므로 그것만 말합니다.
+
+        아이폰을 아예 언급하지 않는 길도 있었지만 그러지 않았습니다 —
+        이 페이지는 신청을 권하는 자리라, 아무 말이 없으면 아이폰
+        쓰시는 분이 되는 줄 알고 신청하셨다가 나중에 아십니다.
+        미리 아시는 편이 낫습니다.
+      -->
+      <p class="lede reveal" style="--d:.12s">
+        Today it runs on <b>Android</b>. iPhone is not ready yet; if you leave
+        your address we will tell you as soon as it is.
+      </p>
+
+      <form class="apply-form reveal" style="--d:.16s" id="applyForm" novalidate>
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Rev. Jane Doe" required>
+        </div>
+        <div class="field">
+          <label for="f-church">Church</label>
+          <input id="f-church" name="church" type="text" autocomplete="organization" placeholder="Grace Community Church">
+        </div>
+        <div class="field">
+          <label for="f-contact">Email</label>
+          <input id="f-contact" name="contact" type="email" autocomplete="email" inputmode="email"
+            placeholder="pastor@example.com" required>
+          <p class="hint">We send the app instructions to this address. You read the reports in the app.</p>
+        </div>
+        <div class="field">
+          <label for="f-link">Link to a sermon video or recording <span class="opt">optional</span></label>
+          <input id="f-link" name="link" type="text" placeholder="https://youtu.be/… or a shared drive link" inputmode="url">
+          <p class="hint">If there is a sermon you would like us to start with, put it here. A YouTube
+            address is enough. You can also leave it empty — install the app and send one from there.</p>
+        </div>
+        <div class="field">
+          <label for="f-goal">The preaching you are aiming at, if you have it in words <span class="opt">optional</span></label>
+          <textarea id="f-goal" name="goal" rows="3" placeholder="e.g. plain enough for anyone to follow, unstiff, and easy to picture"></textarea>
+          <p class="hint">Write it here and we add it to the report as a measure of its own.</p>
+        </div>
+        <!-- 봇 거르기. 사람에게는 보이지 않고, 채워져 있으면 조용히 버립니다. -->
+        <div class="trap" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <!-- 사람 확인. interaction-only 라 평소에는 아무것도 보이지 않고,
+             의심스러울 때만 확인 상자가 나타납니다. -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAAEI8vrcA5igHQyM3"
+             data-appearance="interaction-only"
+             data-language="en"
+             data-size="flexible"
+             data-theme="light"></div>
+        <button class="btn btn-solid btn-block" type="submit">Send me the details</button>
+        <p class="form-status" id="applyStatus" role="status" aria-live="polite"></p>
+        <p class="form-note">
+          Pressing this sends it straight to us. No mail app will open.
+          If you would rather write to us directly,
+          <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>.
+        </p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="f-mark"><span class="mark">✎</span> Preaching Lab</p>
+    <p class="f-desc">
+      We help you put a sermon into text and look back at it. We do not grade it.
+    </p>
+    <p class="f-fine">
+      A report is a reference opinion produced by speech recognition and AI
+      analysis. It is a starting point for conversation, not grounds for
+      judgement. · <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>
+    </p>
+    <p class="f-fine">
+      <a href="/en/privacy">Privacy Policy</a> · <a href="/en/terms">Terms of Service</a>
+      · <a href="/" hreflang="ko" lang="ko">한국어</a>
+    </p>
+  </div>
+</footer>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="../assets/app.js?v=dc168eaa"></script>
+</body>
+</html>
