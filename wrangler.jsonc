@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "preachinglab-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-01",
+  // Next 가 도는 데 필요합니다. 없으면 빌드는 되고 실행에서 죽습니다.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": { "enabled": true }
+}

@@ -1,12 +1,18 @@
 # preachinglab.cloud — 웹
 
-랜딩 네 말(ko·en·es·pt)과 방침·약관. **Next.js 정적 내보내기**입니다.
+랜딩 네 말(ko·en·es·pt)과 방침·약관. **Next.js 를 Cloudflare Workers 에서**
+돌립니다(`@opennextjs/cloudflare`).
 
 ```bash
-npm run dev      # http://localhost:4300
-npm run build    # out/ 에 정적 파일. 끝에 postbuild 가 404 를 제자리에 놓습니다
-npm run check    # 지금 나가 있는 랜딩과 같은지 잽니다 (git 태그 legacy-landing)
+npm run dev       # http://localhost:4300  (Next 개발 서버)
+npm run preview   # 빌드 + Workers 로 띄워 보기  http://localhost:8787
+npm run check     # 지금 나가 있는 랜딩과 같은지 잽니다 — preview 를 띄워 두고 도십시오
+npm run deploy    # 빌드 + Cloudflare 로 올리기
 ```
+
+**`npm run check` 는 띄워 놓고 받아 봅니다.** 파일을 읽는 것이 아니라 실제
+응답을 재는데, 넘김·보안 머리·없는 주소처럼 **파일에는 안 담기는 것**이
+거기서만 보이기 때문입니다.
 
 ## 왜 옮겼는가
 
@@ -41,15 +47,39 @@ functions/apply.js    신청 폼이 보내는 곳 (Cloudflare Pages Function)
 그래서 root 자체를 `[[...slug]]` 아래 두었습니다. `app/layout.tsx` 를
 만들면 `lang` 이 한 말로 굳습니다.
 
-**② `/404` 라는 주소로는 못 만듭니다.** Next 가 예약한 이름이라 우리 것이
-조용히 덮이고 `<title>404: This page could not be found.` 가 나갑니다.
-`/notfound/` 로 만들어 `postbuild` 가 옮깁니다.
+**② `_headers` 는 자산에만, 페이지 머리는 `next.config` 에.**
+옛 사이트는 전부 정적 파일이라 `public/_headers` 하나로 됐습니다. Workers
+에서는 **페이지가 Worker 응답이라 그 파일 밖**입니다. 실측해 보니 `/` 에
+보안 머리 네 줄이 하나도 안 붙어 있었습니다. 지금은 둘이 나눠 맡습니다 —
+자산은 `_headers`, 페이지는 `next.config` 의 `headers()`.
 
-**③ 서버에서 브라우저로 함수를 못 넘깁니다.** 메일 제목이 `(name) => …`
+**③ 넘김은 `public/_redirects` 가 합니다.** `next.config` 의 `redirects()`
+로도 써 봤는데 `trailingSlash: true` 가 먼저 `/my` 를 `/my/` 로 308 해서
+규칙이 안 맞았습니다. `_redirects` 는 Worker 앞에서 처리되어 그대로 됩니다.
+**둘 다 두면 어느 쪽이 일하는지 모르게 되므로** 넘김은 한 곳에만 두었습니다.
+
+**④ 빌드만 하면 전부 404 입니다.** 미리 그려 둔 페이지는 `populateCache`
+단계에서 자산 쪽으로 옮겨집니다. 그 단계를 건너뛰고 `wrangler dev` 를 직접
+띄우면 **모든 주소가 404 이고 로그에는 `NoFallbackError` 만** 남습니다.
+`npm run preview` 는 그 단계를 포함합니다.
+
+**⑤ `dynamicParams = false` 로 두면 없는 주소가 맨 화면으로 갑니다.**
+세그먼트에 들어오지도 못해서 우리 `not-found.tsx` 가 안 쓰이고, Next 의
+`404: This page could not be found.` 가 나갑니다. `true` 로 들여보낸 뒤
+`notFound()` 를 던져야 layout 을 거칩니다.
+
+**⑥ `/404` 라는 주소는 Next 가 예약했습니다.** 그 이름으로 페이지를 만들면
+조용히 덮입니다. (지금은 안 씁니다 — Next 가 404 를 직접 냅니다.)
+
+**⑦ 없는 주소 화면에는 `metadata` 를 못 줍니다.** JSX 로 쓴 `<title>` 도
+머리로 안 올라갑니다. `layout` 의 `metadata` 에 둔 제목이 그 화면에만
+쓰입니다 — 각 장은 자기 `generateMetadata` 로 덮습니다.
+
+**⑧ 서버에서 브라우저로 함수를 못 넘깁니다.** 메일 제목이 `(name) => …`
 함수였는데 빌드가 거기서 멈췄습니다. 지금은 `'[파일럿 신청] {name}'` 처럼
 자리를 둔 글자입니다.
 
-**④ `bump.sh` 는 이제 없습니다.** Next 가 파일 내용 해시를 붙여 내보내므로
+**⑨ `bump.sh` 는 이제 없습니다.** Next 가 파일 내용 해시를 붙여 내보내므로
 「새 HTML + 옛 JS」 조합이 생기지 않습니다.
 
 ## 옮기며 드러난 것 — 아직 안 고친 것
@@ -82,24 +112,34 @@ git show legacy-landing --stat          # 그때 있던 파일 전부
 
 ## 배포 — 아직 안 나갔습니다
 
-`main` 에 올리기 **전에** Cloudflare Pages 의 빌드 설정을 먼저 바꾸셔야
-합니다. 지금은 「빌드 없음」이라, 이대로 `main` 에 올라가면 **Next 소스가
-그대로 배포되어 랜딩이 깨집니다.**
+**Pages 가 아니라 Workers 입니다.** 지금 운영 중인 것은 Cloudflare Pages
+프로젝트이고, 이것은 별개의 Worker 로 올라갑니다.
 
-```
-Workers & Pages → 이 프로젝트 → Settings → Builds & deployments
-
-  빌드 명령      npm run build
-  출력 디렉토리   out
-  Node 버전      20 이상 (지금 맥은 24.1.0)
+```bash
+npx wrangler login      # 한 번
+npm run deploy          # 빌드 + populateCache + 올리기
 ```
 
-바꾸신 뒤 `next-web` 브랜치를 `main` 으로 합치면 나갑니다.
+올린 뒤 **도메인을 옮기셔야** 나갑니다 — Workers & Pages → 이 Worker →
+Settings → Domains & Routes 에서 `preachinglab.cloud` 를 붙입니다. 옛 Pages
+프로젝트에서 먼저 떼야 합니다(한 도메인은 한 곳에만 붙습니다).
 
-- `functions/apply.js` 는 저장소 뿌리에 그대로 있습니다 — Cloudflare 가
-  빌드 출력과 별개로 이 폴더를 찾습니다
-- `RESEND_API_KEY` 등 환경변수는 지금 프로젝트 것을 그대로 씁니다
-- 되돌리기는 `git revert` 하나입니다. 정적 파일이라 서버가 없습니다
+**환경변수 둘을 Worker 쪽에 다시 넣으셔야 합니다** — 지금 Pages 프로젝트에
+있는 값이 Worker 로 따라오지 않습니다.
+
+```
+RESEND_API_KEY      신청 메일. 없으면 폼이 「메일 설정이 되어 있지 않습니다」
+TURNSTILE_SECRET    사람 확인. 없으면 확인을 건너뜁니다(코드가 그렇게 짜여 있습니다)
+```
+
+**신청 폼이 Pages Function 에서 Next 라우트로 옮겨졌습니다**
+(`functions/apply.js` → `lib/apply.js` + `app/apply/route.ts`). 로직은 한 줄도
+안 바뀌었고 껍데기만 갈았습니다. **그냥 두었으면 폼이 조용히 404 를 받고**
+화면은 「전송이 안 되어 메일 앱으로 대신 엽니다」로 물러났을 것입니다 —
+신청은 계속 들어오는데 아무도 못 알아차리는 종류의 고장입니다.
+
+되돌리기: 도메인을 옛 Pages 프로젝트로 되돌리면 그대로입니다. 옛 랜딩은
+`legacy-landing` 태그에 있습니다.
 
 ### 나간 뒤 확인할 것
 

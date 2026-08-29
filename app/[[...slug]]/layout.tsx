@@ -5,6 +5,16 @@ import { VisitCount } from '@/components/VisitCount';
 import '../globals.css';
 
 /**
+ * 여기 제목은 **없는 주소 화면을 위한 것입니다.**
+ *
+ * 각 페이지는 `generateMetadata` 로 자기 제목을 냅니다. 그런데 Next 의
+ * `not-found` 에는 그 자리가 없고, 그 화면에서 스크립트로 `document.title`
+ * 을 넣어 봐도 하이드레이션이 다시 비웁니다. 실제로 재보니 탭이 빈 채로
+ * 주소가 뜹니다 — 옛 `404.html` 에는 제목이 있었습니다.
+ */
+export const metadata = { title: 'Preaching Lab — 없는 주소입니다' };
+
+/**
  * **이것이 root layout 입니다.** `app/layout.tsx` 를 따로 두지 않습니다.
  *
  * `<html lang>` 을 말마다 달리 주어야 하는데 root layout 은 주소를 못

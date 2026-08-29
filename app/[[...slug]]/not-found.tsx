@@ -11,13 +11,16 @@ const PICK = `(function(){try{
   var code=(navigator.language||'ko').slice(0,2).toLowerCase();
   var langs=['ko','en','es','pt'];
   var pick=langs.indexOf(code)>=0?code:'en';
-  if(pick==='ko')return;
+  // **한국어일 때도 넣습니다.** 이 화면은 Next 의 오류용 <html> 을 쓰는데
+  // 거기엔 lang 이 아예 없습니다. 옛 404.html 은 lang="ko" 로 시작했으므로
+  // 그때는 「바꿀 것 없으면 그냥 두기」가 맞았습니다. 지금은 아닙니다.
   document.documentElement.lang=pick;
+  if(pick==='ko')return;
   var all=document.querySelectorAll('[data-i18n]');
   for(var i=0;i<all.length;i++){all[i].hidden=all[i].getAttribute('lang')!==pick;}
 }catch(e){}})();`;
 
-export function NotFoundPage() {
+export default function NotFound() {
   return (
     <>
       <main id="top">

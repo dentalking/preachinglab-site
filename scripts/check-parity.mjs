@@ -13,14 +13,26 @@
  * 심어 보고, 그것을 못 잡으면 검사 자체가 고장 난 것으로 보고 2 로 끝냅니다.
  * 「0건」은 검사가 진짜를 잡을 때만 뜻이 있습니다.
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..');
-const NEW = join(ROOT, 'out');
+
+/**
+ * 새 랜딩은 **실제 응답을 받아 봅니다.**
+ *
+ * 예전에는 `out/` 의 파일을 읽었습니다. Cloudflare Workers 로 옮기면서
+ * 그 폴더가 없어졌고, 그보다 **띄워 놓고 받아 보는 쪽이 진짜에
+ * 가깝습니다** — 넘김(`/my`)·보안 머리·없는 주소처럼 파일에는 안 담기는
+ * 것들이 여기서만 보입니다.
+ *
+ *   npm run preview        (다른 창에서 띄워 두고)
+ *   npm run check
+ */
+const BASE = process.env.CHECK_BASE ?? 'http://localhost:8787';
 
 /**
  * 옛 랜딩은 **git 에서 꺼내 봅니다.**
@@ -32,11 +44,16 @@ const NEW = join(ROOT, 'out');
  *
  * 그래서 태그 하나를 세워 두고 거기서 읽습니다.
  */
-const BASE = 'legacy-landing';
+const LEGACY = 'legacy-landing';
+
+async function newPage(path) {
+  const res = await fetch(BASE + path, { redirect: 'manual' });
+  return { status: res.status, html: await res.text() };
+}
 
 function oldFile(path) {
   try {
-    return execFileSync('git', ['-C', ROOT, 'show', `${BASE}:${path}`], {
+    return execFileSync('git', ['-C', ROOT, 'show', `${LEGACY}:${path}`], {
       encoding: 'utf8',
       maxBuffer: 32 * 1024 * 1024,
     });
@@ -47,17 +64,37 @@ function oldFile(path) {
 
 /** 옛 주소 → 새 주소. 지금 쓰는 주소가 한 글자도 안 바뀌어야 합니다. */
 const PAGES = [
-  ['index.html', 'index.html'],
-  ['en/index.html', 'en/index.html'],
-  ['es/index.html', 'es/index.html'],
-  ['pt/index.html', 'pt/index.html'],
-  // 방침·약관. 옛 주소는 `.html` 이지만 나가는 주소는 `/privacy` 입니다
-  // (Cloudflare 가 308 로 넘깁니다). 새 쪽은 처음부터 그 주소입니다.
-  ['privacy.html', 'privacy/index.html'],
-  ['terms.html', 'terms/index.html'],
-  ['en/privacy.html', 'en/privacy/index.html'],
-  ['en/terms.html', 'en/terms/index.html'],
-  ['404.html', '404.html'],
+  ['index.html', '/'],
+  ['en/index.html', '/en/'],
+  ['es/index.html', '/es/'],
+  ['pt/index.html', '/pt/'],
+  ['privacy.html', '/privacy/'],
+  ['terms.html', '/terms/'],
+  ['en/privacy.html', '/en/privacy/'],
+  ['en/terms.html', '/en/terms/'],
+];
+
+/**
+ * 파일에는 안 담기는 것들. **여기가 Workers 로 옮기며 늘어난 자리입니다.**
+ *
+ * `_headers`·`_redirects` 는 Cloudflare Pages 것이라 Workers 에서는 읽히지
+ * 않습니다. `next.config.mjs` 로 옮겼는데, **옮겼다는 것을 파일 대조로는
+ * 못 잽니다** — 안 옮겼어도 랜딩 HTML 은 똑같이 나옵니다. 카카오톡으로
+ * 건너간 공유 링크가 404 가 되고서야 알게 됩니다.
+ */
+const BEHAVIOUR = [
+  { what: '/my 를 리포트 쪽으로', path: '/my', status: 302, location: 'https://my.preachinglab.cloud/my' },
+  { what: '/my/… 를 그대로', path: '/my/abc', status: 302, location: 'https://my.preachinglab.cloud/my/abc' },
+  { what: '공유 링크 /s/…', path: '/s/xyz', status: 302, location: 'https://my.preachinglab.cloud/s/xyz' },
+  { what: '없는 주소는 404', path: '/이런-주소는-없습니다/', status: 404 },
+  { what: '신청은 GET 을 안 받음', path: '/apply/', status: 405 },
+];
+
+const HEADERS = [
+  ['x-content-type-options', 'nosniff'],
+  ['x-frame-options', 'DENY'],
+  ['referrer-policy', 'strict-origin-when-cross-origin'],
+  ['permissions-policy', 'geolocation=(), microphone=(), camera=(), interest-cohort=()'],
 ];
 
 function visibleText(html) {
@@ -133,21 +170,31 @@ const lines = [];
   }
 }
 
+// 띄워 놓았는지 먼저 봅니다. 안 띄우고 도는 것과 다른 것이 없는 것은
+// 전혀 다른 일인데, 안 가르면 「전부 다릅니다」로 나와 사람을 헤매게 합니다.
+try {
+  await fetch(BASE + '/', { redirect: 'manual' });
+} catch {
+  console.error(`✗ ${BASE} 가 안 떠 있습니다.`);
+  console.error('  다른 창에서 `npm run preview` 를 띄워 두고 다시 돌리십시오.');
+  process.exit(2);
+}
+
 for (const [o, n] of PAGES) {
-  const np = join(NEW, n);
   const oh = oldFile(o);
   if (oh === null) {
-    console.error(`✗ 옛 파일을 못 꺼냈습니다: ${BASE}:${o}`);
-    console.error(`  태그가 있는지 보십시오 — git tag -l ${BASE}`);
-    process.exit(2);
-  }
-  if (!existsSync(np)) {
-    console.error(`✗ 새 파일이 없습니다: ${np}`);
-    console.error('  `npm run build` 를 먼저 돌리십시오.');
+    console.error(`✗ 옛 파일을 못 꺼냈습니다: ${LEGACY}:${o}`);
+    console.error(`  태그가 있는지 보십시오 — git tag -l ${LEGACY}`);
     process.exit(2);
   }
   checked++;
-  const nh = readFileSync(np, 'utf8');
+  const got = await newPage(n);
+  if (got.status !== 200) {
+    bad++;
+    lines.push(`✗ ${n} — ${got.status} 입니다 (200 이어야 합니다)`);
+    continue;
+  }
+  const nh = got.html;
 
   const d = diff(visibleText(oh), visibleText(nh));
   if (d) {
@@ -174,14 +221,44 @@ for (const [o, n] of PAGES) {
   }
 }
 
+// 파일에는 안 담기는 것들.
+for (const b of BEHAVIOUR) {
+  const res = await fetch(BASE + b.path, { redirect: 'manual' });
+  if (res.status !== b.status) {
+    bad++;
+    lines.push(`✗ ${b.what} — ${b.path} 가 ${res.status} 입니다 (${b.status} 여야 합니다)`);
+    continue;
+  }
+  if (b.location && res.headers.get('location') !== b.location) {
+    bad++;
+    lines.push(`✗ ${b.what} — ${res.headers.get('location')} 로 갑니다 (${b.location} 여야 합니다)`);
+  }
+}
+{
+  const res = await fetch(BASE + '/', { redirect: 'manual' });
+  for (const [k, v] of HEADERS) {
+    if (res.headers.get(k) !== v) {
+      bad++;
+      lines.push(`✗ 보안 머리 ${k} 가 ${res.headers.get(k) ?? '없음'} 입니다`);
+    }
+  }
+  const asset = await fetch(BASE + '/assets/og.png', { redirect: 'manual' });
+  if (asset.headers.get('cache-control') !== 'public, max-age=3600') {
+    bad++;
+    lines.push(`✗ 자산 캐시 머리가 ${asset.headers.get('cache-control') ?? '없음'} 입니다`);
+  }
+}
+
 if (bad) {
   console.log(lines.join('\n'));
   console.log(`\n${checked}장 중 ${bad}군데 어긋납니다.`);
   process.exit(1);
 }
 console.log(`✓ 옛 랜딩과 새 랜딩이 같습니다 — ${checked}장 (보이는 글자 · 클래스 · 이름표)`);
+console.log(`  그리고 파일에 안 담기는 것 ${BEHAVIOUR.length + HEADERS.length + 1}가지 — 넘김 · 없는 주소 · 보안 머리 · 자산 캐시`);
 console.log('');
-console.log('  여기서 안 보는 것 — 이 검사는 HTML 글자만 읽습니다:');
+console.log('');
+console.log('  여기서 안 보는 것:');
 console.log('   · 화면에 실제로 그려진 모양(브라우저가 필요합니다)');
 console.log('   · `hidden` 이 CSS 에 지는 것 — 옛 404 가 실제로 그랬습니다');
 console.log('   · 폼을 눌렀을 때 일어나는 일 · 글꼴이 실제로 받아지는지');

@@ -3,10 +3,8 @@ import { notFound } from 'next/navigation';
 import { Landing } from '@/components/Landing';
 import { LANDING, hasLanding } from '@/content';
 import { legalDoc } from '@/content/legal';
-import { NotFoundPage } from '@/components/NotFoundPage';
 import {
   DEFAULT_LOCALE,
-  NOT_FOUND_SLUG,
   HAS_PAGE,
   LOCALES,
   LOCALE_META,
@@ -18,7 +16,20 @@ import {
   type PageKind,
 } from '@/content/routes';
 
-export const dynamicParams = false;
+/**
+ * 모르는 주소도 이 세그먼트로 들여보냅니다.
+ *
+ * `false` 였을 때는 없는 주소가 **세그먼트에 들어오지도 못하고** Next 의
+ * 맨 404 로 빠졌습니다 — 글꼴도 스타일도 `lang` 도 없는 화면이고,
+ * `<title>` 은 `404: This page could not be found.` 였습니다. root layout 이
+ * 주소 조각 아래 있는 우리 구조에서는 그 화면을 꾸밀 방법이 없습니다.
+ *
+ * 들여보낸 뒤 `parseSlug` 가 모르는 주소면 `notFound()` 를 던지고, 그러면
+ * **이 세그먼트의 `not-found.tsx` 가 layout 을 거쳐** 그려집니다.
+ * 아래 `generateStaticParams` 에 적힌 주소들은 그대로 미리 그려지므로,
+ * 이 값은 「없는 주소를 어떻게 맞이하는가」만 바꿉니다.
+ */
+export const dynamicParams = true;
 
 const FAVICON =
   "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>✎</text></svg>";
@@ -36,10 +47,7 @@ function pages(): { locale: Locale; kind: PageKind }[] {
 }
 
 export function generateStaticParams() {
-  // 없는 주소 장 하나를 더 만듭니다. 빌드 뒤 `404.html` 자리로 옮겨집니다.
-  return [{ slug: NOT_FOUND_SLUG }, ...pages()].map((p) => {
-    if ('slug' in p) return p;
-    const { locale, kind } = p;
+  return pages().map(({ locale, kind }) => {
     const path = href(locale, kind).replace(/^\/|\/$/g, '');
     return { slug: path === '' ? [] : path.split('/') };
   });
@@ -53,15 +61,6 @@ export async function generateMetadata({
   const { slug } = await params;
   const page = parseSlug(slug);
   if (!page) return {};
-
-  if (page.kind === 'notfound') {
-    return {
-      metadataBase: new URL(SITE_ORIGIN),
-      title: 'Preaching Lab — 없는 주소입니다',
-      icons: { icon: FAVICON },
-      robots: { index: false, follow: true },
-    };
-  }
 
   // 방침·약관. **짝이 되는 말끼리만 가리킵니다** — es·pt 에는 이 문서가
   // 아직 없어서, 있는 것처럼 가리키면 404 가 나갑니다.
@@ -134,8 +133,6 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
   const { slug } = await params;
   const page = parseSlug(slug);
   if (!page) notFound();
-
-  if (page.kind === 'notfound') return <NotFoundPage />;
 
   if (page.kind === 'landing') {
     const c = LANDING[page.locale];

@@ -58,21 +58,8 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
   pt: { lang: 'pt', ogLocale: 'pt_BR', name: 'Português', ...LATIN },
 };
 
-export type PageKind = 'landing' | 'privacy' | 'terms' | 'notfound';
+export type PageKind = 'landing' | 'privacy' | 'terms';
 
-/**
- * 없는 주소에 나가는 장.
- *
- * **정식 한 장으로 만듭니다.** Next 가 스스로 만드는 `404.html` 은 우리
- * `layout` 을 안 거쳐서 글꼴도 스타일도 `lang` 도 없는 맨 문서입니다
- * (root layout 이 주소 조각 아래 있기 때문입니다). 그래서 제대로 한 장을
- * 만들고 빌드 뒤 `404.html` 자리에 놓습니다 — `scripts/postbuild.mjs`.
- *
- * **`/404` 라는 이름은 못 씁니다** — Next 가 예약해 두어서, 그 주소로
- * 만들면 우리 것이 조용히 Next 의 맨 404 로 덮입니다. 실제로 한 번
- * 덮였고 `<title>404: This page could not be found.` 로 나왔습니다.
- */
-export const NOT_FOUND_SLUG = ['notfound'];
 
 /**
  * 기본 말(ko)은 주소에 말을 안 붙입니다 — `/`, `/privacy`.
@@ -80,7 +67,6 @@ export const NOT_FOUND_SLUG = ['notfound'];
  * 카카오톡으로 이미 건너간 링크가 거기 걸려 있습니다.
  */
 export function href(locale: Locale, kind: PageKind): string {
-  if (kind === 'notfound') return '/notfound';
   const base = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
   if (kind === 'landing') return `${base}/`;
   return `${base}/${kind}`;
@@ -104,10 +90,10 @@ export function absolute(locale: Locale, kind: PageKind): string {
  * 약속하면 표가 늘 때 아무도 안 고칩니다.
  */
 export const HAS_PAGE: Record<Locale, Record<PageKind, boolean>> = {
-  ko: { landing: true, privacy: true, terms: true, notfound: true },
-  en: { landing: true, privacy: true, terms: true, notfound: false },
-  es: { landing: true, privacy: false, terms: false, notfound: false },
-  pt: { landing: true, privacy: false, terms: false, notfound: false },
+  ko: { landing: true, privacy: true, terms: true },
+  en: { landing: true, privacy: true, terms: true },
+  es: { landing: true, privacy: false, terms: false },
+  pt: { landing: true, privacy: false, terms: false },
 };
 
 /** 그 말에 없으면 영어로 보냅니다 — 지금 하고 있는 것과 같되, 이유가 코드에 남습니다. */
@@ -135,8 +121,6 @@ export function parseSlug(slug: string[] | undefined): { locale: Locale; kind: P
     locale = parts[0] as Locale;
     rest = parts.slice(1);
   }
-  // 없는 주소 장은 말이 없습니다 — 네 말을 다 싣고 브라우저가 고릅니다.
-  if (parts.length === 1 && parts[0] === 'notfound') return { locale: DEFAULT_LOCALE, kind: 'notfound' };
   const kind: PageKind | null =
     rest.length === 0 ? 'landing' : rest.length === 1 && (rest[0] === 'privacy' || rest[0] === 'terms') ? rest[0] : null;
   if (!kind) return null;
