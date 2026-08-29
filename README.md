@@ -22,11 +22,11 @@
 > Cloudflare Workers 에서는 Postgres 로 TCP 를 못 열고, PDF 를 만드는
 > Chromium 도 그 컨테이너에만 있습니다.
 >
-> ### 여기 남겨 둔 것
+> ### 배포는 끝났습니다
 >
-> **Cloudflare Pages 프로젝트는 아직 살아 있습니다.** 되돌릴 길로
-> 두었습니다 — DNS 의 CNAME 을 `preachinglab-site.pages.dev` 로 되돌리면
-> 이 판이 그대로 다시 섭니다. 며칠 지켜본 뒤 그것도 뗄 자리입니다.
+> **Cloudflare Pages 프로젝트도 같은 날 지웠습니다.**
+> `preachinglab-site.pages.dev` 는 더는 없습니다. 이 저장소는 이제
+> **아무 데도 배포되지 않습니다.**
 >
 > `legacy-landing` 태그는 새 저장소에 따라가 있고, `check-parity` 가
 > 아직 그것과 지금 랜딩을 맞대고 있습니다. **이 저장소의 이력은 그래서
