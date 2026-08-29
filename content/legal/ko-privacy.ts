@@ -1,46 +1,8 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>개인정보처리방침 — Preaching Lab</title>
-<meta name="description" content="Preaching Lab 이 무엇을 받아 어디에 맡기고 언제 지우는지.">
-<meta name="robots" content="index,follow">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>✎</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=b98643df">
-<style>
-  .doc { max-width: 720px; margin: 0 auto; padding: 72px 24px 96px; }
-  .doc h1 { font-size: 2rem; letter-spacing: -.02em; margin: 0 0 .4em; }
-  .doc .updated { color: var(--muted, #6b6660); font-size: .9rem; margin-bottom: 3em; }
-  .doc h2 { font-size: 1.15rem; margin: 2.6em 0 .7em; letter-spacing: -.01em; }
-  .doc p, .doc li { line-height: 1.85; }
-  .doc ul { padding-left: 1.2em; }
-  .doc li { margin-bottom: .5em; }
-  .doc table { width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: .95rem; }
-  .doc th, .doc td { text-align: left; padding: .7em .6em; border-bottom: 1px solid var(--rule, #e5e0d6); vertical-align: top; }
-  .doc th { font-weight: 600; white-space: nowrap; }
-  .doc .back { display: inline-block; margin-bottom: 2.4em; font-size: .95rem; }
-  .doc .box { border: 1px solid var(--rule, #e5e0d6); border-radius: 12px; padding: 1.2em 1.4em; margin: 1.4em 0; }
-</style>
-<link rel="canonical" href="https://preachinglab.cloud/privacy">
-<link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/privacy">
-<link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/privacy">
-<link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/privacy">
-<meta name="description" content="Preaching Lab 이 어떤 정보를 어떻게 다루는지 적어 둔 문서입니다.">
-<meta property="og:title" content="개인정보처리방침 — Preaching Lab">
-<meta property="og:description" content="Preaching Lab 이 어떤 정보를 어떻게 다루는지 적어 둔 문서입니다.">
-<meta property="og:url" content="https://preachinglab.cloud/privacy">
-<meta property="og:image" content="https://preachinglab.cloud/assets/og.png">
-<meta name="twitter:card" content="summary_large_image">
-</head>
-<body>
+// privacy.html 의 본문을 **한 글자도 바꾸지 않고** 옮긴 것입니다.
+// scripts/import-legal.mjs 가 한 번 떠 왔고, 지금부터는 이 파일이 원본입니다.
+// 법률 문안이라 손으로 고칠 때도 문장 단위로만 손대십시오.
 
-<main class="doc">
-  <a class="back" href="/">← Preaching Lab</a>
+export const body = `<a class="back" href="/">← Preaching Lab</a>
 
   <h1>개인정보처리방침</h1>
   <p class="updated">2026년 8월 14일부터 적용 · 앱에서 직접 녹음하는 기능이 생겨 마이크 항목을 더했습니다</p>
@@ -156,8 +118,4 @@
   <p>
     개인정보 보호책임자 — Preaching Lab 운영자<br>
     <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>
-  </p>
-</main>
-
-</body>
-</html>
+  </p>`;

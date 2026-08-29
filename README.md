@@ -1,116 +1,115 @@
-# preachinglab.cloud — 랜딩 페이지
+# preachinglab.cloud — 웹
 
-설교 회고 서비스 Preaching Lab 의 소개 페이지. 정적 파일 세 개뿐입니다.
-
-```
-index.html
-assets/style.css
-assets/app.js
-_headers          Cloudflare Pages 보안 헤더
-```
-
-빌드 과정이 없습니다. 파일을 고치면 그대로 배포됩니다.
-
-## ⚠️ 커밋 전에 `./bump.sh`
-
-`assets/` 를 고치셨으면 **반드시 실행하세요.**
+랜딩 네 말(ko·en·es·pt)과 방침·약관. **Next.js 정적 내보내기**입니다.
 
 ```bash
-./bump.sh && git add -A && git commit -m "…" && git push
+npm run dev      # http://localhost:4300
+npm run build    # out/ 에 정적 파일. 끝에 postbuild 가 404 를 제자리에 놓습니다
+npm run check    # 지금 나가 있는 랜딩과 같은지 잽니다 (git 태그 legacy-landing)
 ```
 
-`index.html` 은 캐시되지 않지만 `assets/*` 는 엣지에 **최대 4시간** 남습니다.
-그동안 방문자는 **새 HTML + 옛 JS** 를 받습니다. 실제로 이 조합 때문에
-신청 폼이 예전 mailto 동작으로 되돌아간 적이 있습니다. 조용히 깨지는 종류라
-더 위험합니다.
+## 왜 옮겼는가
 
-`bump.sh` 는 파일 내용의 해시를 URL 에 붙입니다(`app.js?v=7e0f3ce0`).
-내용이 바뀌면 URL 이 바뀌므로 캐시가 자동으로 무효화됩니다. 여러 번 돌려도
-안전합니다.
+옛 랜딩은 **HTML 네 벌(103KB)** 이었습니다. 말을 하나 늘릴 때마다 페이지가
+한 벌씩 늘고, `hreflang` 다섯 줄과 `sitemap.xml` 과 `bump.sh` 를 함께
+고쳐야 했습니다. `bump.sh` 주석이 그 대가를 직접 적어 두었습니다 —
 
-> Cloudflare 대시보드에서 **Caching → Browser Cache TTL** 을
-> `Respect Existing Headers` 로 바꾸면 `_headers` 의 값이 그대로 적용됩니다.
-> 지금은 존 기본값(4시간)이 `_headers` 를 덮어쓰고 있습니다.
-> 바꾸셔도 `bump.sh` 는 계속 쓰는 편이 안전합니다.
+> 영어·스페인어·포르투갈어 랜딩이 생기면서 **세 페이지가 조용히
+> 낡았습니다.** … 한국어 페이지만 보면 멀쩡해 보였습니다.
 
-## 로컬에서 보기
+지금은 **그리는 곳이 한 벌**이고 말 표가 넷입니다. 칸이 하나 빠지면
+`tsc` 가 그 자리에서 멈춥니다.
+
+## 구조
+
+```
+content/routes.ts     주소·말·글꼴의 유일한 목록. 여기서 sitemap·hreflang 이 나옵니다
+content/types.ts      랜딩 한 장의 모양. 네 말이 이것을 똑같이 채웁니다
+content/{ko,en,es,pt} 말 넷. 옛 HTML 에서 한 글자도 안 바꾸고 옮겼습니다
+content/legal/        방침·약관 — **본문은 HTML 그대로**입니다(법률 문안)
+components/Landing    그리는 곳 한 벌
+app/[[...slug]]/      이것이 root layout 입니다(아래 「함정」)
+scripts/check-parity  옛것과 같은지 재는 자
+scripts/postbuild     404 를 제자리에 놓고 부스러기를 치웁니다
+functions/apply.js    신청 폼이 보내는 곳 (Cloudflare Pages Function)
+```
+
+## 함정 — 다음 사람이 걸릴 자리
+
+**① root layout 이 `app/layout.tsx` 가 아닙니다.**
+`<html lang>` 을 말마다 달리 주어야 하는데 root layout 은 주소를 못 받습니다.
+그래서 root 자체를 `[[...slug]]` 아래 두었습니다. `app/layout.tsx` 를
+만들면 `lang` 이 한 말로 굳습니다.
+
+**② `/404` 라는 주소로는 못 만듭니다.** Next 가 예약한 이름이라 우리 것이
+조용히 덮이고 `<title>404: This page could not be found.` 가 나갑니다.
+`/notfound/` 로 만들어 `postbuild` 가 옮깁니다.
+
+**③ 서버에서 브라우저로 함수를 못 넘깁니다.** 메일 제목이 `(name) => …`
+함수였는데 빌드가 거기서 멈췄습니다. 지금은 `'[파일럿 신청] {name}'` 처럼
+자리를 둔 글자입니다.
+
+**④ `bump.sh` 는 이제 없습니다.** Next 가 파일 내용 해시를 붙여 내보내므로
+「새 HTML + 옛 JS」 조합이 생기지 않습니다.
+
+## 옮기며 드러난 것 — 아직 안 고친 것
+
+- **es·pt 에 방침·약관이 없습니다.** 푸터가 영어 문서를 가리킵니다.
+  번역이 오면 `routes.ts` 의 `HAS_PAGE` 한 줄로 켜지고, **sitemap 도 함께
+  따라옵니다.** 법률 문안이라 지어 넣지 않았습니다.
+- **머리띠의 신청 버튼이 한국어에만 있습니다.** 지금 모양 그대로 옮겼습니다.
+
+## 고친 것
+
+- **옛 404 가 버튼 네 개를 다 보이고 있었습니다.** `.btn` 의
+  `display:inline-flex` 가 `[hidden]` 을 이겼습니다. `[hidden]{display:none
+  !important}` 를 세웠습니다.
+- **옛 404 에는 글꼴 링크가 하나도 없었습니다**(랜딩은 셋). 이제 `layout` 에서
+  함께 받습니다.
+
+## 옛 랜딩은 어디 갔는가
+
+손으로 쓴 HTML 네 벌은 **`legacy-landing` 태그에 있습니다.**
 
 ```bash
-python3 -m http.server 4300
-# http://localhost:4300
+git show legacy-landing:index.html      # 그때의 한국어 랜딩
+git show legacy-landing --stat          # 그때 있던 파일 전부
 ```
 
-## Cloudflare Pages 배포
+폴더에 사본으로 남기지 않은 것은 **「어느 쪽이 진짜인가」가 흐려지기**
+때문입니다. 언젠가 그 사본을 고치는 사람이 나옵니다. 대신 `npm run check`
+가 그 태그에서 꺼내 지금 것과 맞대므로, **지우고도 계속 잴 수 있습니다.**
 
-1. 이 폴더를 GitHub 저장소로 올립니다 (**public 이어도 됩니다** — 고객 데이터가 없습니다).
-   ```bash
-   gh repo create preachinglab-site --public --source=. --push
-   ```
-2. Cloudflare 대시보드 → **Workers & Pages → Create → Pages → Connect to Git**
-3. 저장소 선택 후 빌드 설정:
+## 배포 — 아직 안 나갔습니다
 
-   | 항목 | 값 |
-   |---|---|
-   | Framework preset | None |
-   | Build command | *(비움)* |
-   | Build output directory | `/` |
+`main` 에 올리기 **전에** Cloudflare Pages 의 빌드 설정을 먼저 바꾸셔야
+합니다. 지금은 「빌드 없음」이라, 이대로 `main` 에 올라가면 **Next 소스가
+그대로 배포되어 랜딩이 깨집니다.**
 
-4. 배포되면 **Custom domains** 에서 `preachinglab.cloud` 와 `www` 를 연결합니다.
-   DNS가 이미 Cloudflare에 있으니 레코드는 자동으로 잡힙니다.
+```
+Workers & Pages → 이 프로젝트 → Settings → Builds & deployments
 
-> 설교 녹취록이 들어 있는 `sermon-archive` 저장소와는 **반드시 분리해 두세요.**
-> 이 저장소는 공개, 그쪽은 비공개입니다.
+  빌드 명령      npm run build
+  출력 디렉토리   out
+  Node 버전      20 이상 (지금 맥은 24.1.0)
+```
 
-## 신청 메일 받기 — `hello@preachinglab.cloud`
+바꾸신 뒤 `next-web` 브랜치를 `main` 으로 합치면 나갑니다.
 
-페이지의 신청 폼과 푸터가 이 주소를 씁니다. 무료로 만들 수 있습니다.
+- `functions/apply.js` 는 저장소 뿌리에 그대로 있습니다 — Cloudflare 가
+  빌드 출력과 별개로 이 폴더를 찾습니다
+- `RESEND_API_KEY` 등 환경변수는 지금 프로젝트 것을 그대로 씁니다
+- 되돌리기는 `git revert` 하나입니다. 정적 파일이라 서버가 없습니다
 
-Cloudflare 대시보드 → 도메인 선택 → **Email → Email Routing**
-→ `hello@preachinglab.cloud` 를 실제 개인 메일로 포워딩.
+### 나간 뒤 확인할 것
 
-주소를 바꾸시려면 `assets/app.js` 맨 위 `CONTACT_EMAIL` 과
-`index.html` 의 `mailto:` 두 곳을 함께 고치세요.
+```bash
+for u in / /en/ /es/ /pt/ /privacy /terms /en/privacy /en/terms; do
+  echo -n "$u  "; curl -sL -o /dev/null -w '%{http_code}\n' "https://preachinglab.cloud$u"
+done
+curl -sL https://preachinglab.cloud/ | grep -o '<html lang="[^"]*"'   # ko 여야 합니다
+curl -s  https://preachinglab.cloud/sitemap.xml | grep -c '<loc>'      # 8 이어야 합니다
+```
 
-## 폼을 제대로 받고 싶어지면
-
-지금은 **메일 앱을 여는 방식**입니다. 설정이 필요 없어 바로 동작하지만,
-신청이 쌓이기 시작하면 전환이 떨어집니다(특히 모바일). 바꿀 때 선택지:
-
-| 방법 | 난이도 | 비고 |
-|---|---|---|
-| Tally / 구글폼 임베드 | 가장 쉬움 | 폼 UI를 통째로 교체 |
-| Formspree | 쉬움 | `<form action>` 만 바꾸면 됨 |
-| Cloudflare Pages Functions | 중간 | `functions/apply.js` 추가. D1이나 KV에 저장하거나 메일로 전달 |
-
-`assets/app.js` 의 submit 핸들러만 갈아끼우면 됩니다.
-
-## 페이지에 실린 샘플에 대해
-
-샘플 리포트는 **파일럿 목사님의 실제 리포트에서 발췌**했습니다.
-교회·성함·설교 제목·성경 본문, 그리고 설교 중 나온 고유한 예화(아이 이름, 음식 등)를
-모두 지웠습니다. 유튜브 검색이나 같은 교회 성도의 기억으로 특정할 수 없어야 한다는
-기준으로 가렸습니다.
-
-> ⚠️ **원문 인용을 공개 페이지에 싣는 것은 보관 동의와 별개입니다.**
-> 지금 수준으로도 특정은 어렵지만, 해당 목사님께 "리포트 일부를 익명으로
-> 소개 페이지에 써도 될지" 한 번 여쭙는 편이 안전합니다.
-> 실명·추천사를 싣게 되면 그때는 반드시 별도 동의가 필요합니다.
-
-## 디자인 메모
-
-**은유는 설교 원고와 그 여백의 주석입니다.**
-
-색의 핵심은 **파란 펜**입니다. 빨간 펜은 채점이고 파란 펜은 대화입니다.
-이 서비스가 "평가가 아니라 회고"라는 것을 색 하나로 말합니다.
-그래서 강조·링크·주석이 모두 `--pen: #2b4c8c` 입니다.
-
-배경은 크림이 아니라 **거의 흰 종이**(`#fbfaf8`)입니다. 원고지에 가깝게,
-그리고 흔한 AI 랜딩 페이지의 크림+테라코타 조합에서 떨어뜨리려는 선택입니다.
-
-- 표제 `Gowun Batang` — 명조. 설교 원고와 성경의 활자
-- 본문 `Pretendard` — 긴 한글 문장을 읽기 편하게
-- 라벨·숫자 `JetBrains Mono` — "lab"의 계측 느낌
-
-시그니처는 히어로의 **원고 → 연결선 → 주석**입니다. 제품이 하는 일을
-제품의 재료로 보여줍니다. 페이지에서 유일하게 힘을 준 곳이고,
-나머지는 일부러 조용하게 두었습니다.
+**`.html` 은 308 로 확장자 없는 주소로 넘어가므로 `curl -L` 없이 재면 빈
+값이 나옵니다.** 8/29 에 그걸로 「안 갈렸다」고 볼 뻔한 적이 있습니다.

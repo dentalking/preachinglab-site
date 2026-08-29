@@ -1,3 +1,14 @@
+/* ─────────────────────────────────────────────────────────────
+   site/assets/style.css 를 그대로 옮겨왔습니다 (2026-08-29).
+
+   **디자인을 손대지 않습니다.** 이번 판이 하는 일은 네 벌을 한
+   벌로 줄이는 것뿐이고, 모양까지 같이 바꾸면 무엇 때문에 달라졌는지
+   가릴 수 없게 됩니다. 옛 페이지와 새 페이지를 나란히 놓고 같은지
+   재는 것이 이번 판의 검사입니다.
+
+   Next 가 내용 해시를 붙여 내보내므로 **bump.sh 는 더 필요 없습니다.**
+   ───────────────────────────────────────────────────────────── */
+
 /* ─────────────────────────────────────────────────────────
    Preaching Lab
 
@@ -455,3 +466,44 @@ p { margin: 0 0 1em; }
   font-family: var(--body); font-size: .68rem; font-weight: 600;
   letter-spacing: 0; color: var(--ink-faint);
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   방침·약관.
+
+   옛 네 장은 이 규칙을 **파일마다 `<style>` 한 덩이**로 지고 있었고,
+   넷이 조금씩 어긋나 있었습니다. 한글과 라틴 글자의 조판이 실제로
+   달라야 하는 자리는 남기고(자간·줄간·표 머리), 나머지는 합쳤습니다.
+   ───────────────────────────────────────────────────────────── */
+.doc { max-width: 720px; margin: 0 auto; padding: 72px 24px 96px; }
+.doc h1 { font-size: 2rem; margin: 0 0 .4em; }
+.doc .updated { color: var(--muted, #6b6660); font-size: .9rem; margin-bottom: 3em; }
+.doc h2 { font-size: 1.15rem; margin: 2.6em 0 .7em; }
+.doc p, .doc li { line-height: 1.65; }
+.doc ul { padding-left: 1.2em; }
+.doc li { margin-bottom: .5em; }
+.doc table { width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: .95rem; }
+.doc th, .doc td { text-align: left; padding: .7em .6em; border-bottom: 1px solid var(--rule, #e5e0d6); vertical-align: top; }
+.doc th { font-weight: 600; }
+.doc .back { display: inline-block; margin-bottom: 2.4em; font-size: .95rem; }
+.doc .box { border: 1px solid var(--rule, #e5e0d6); border-radius: 12px; padding: 1.2em 1.4em; margin: 1.4em 0; }
+.doc .wrap { overflow-x: auto; }
+
+/* 한글 쪽만 다른 것 — 자간을 죄고 줄을 넓히고, 표 머리를 안 접습니다. */
+html[lang="ko"] .doc h1 { letter-spacing: -.02em; }
+html[lang="ko"] .doc h2 { letter-spacing: -.01em; }
+html[lang="ko"] .doc p, html[lang="ko"] .doc li { line-height: 1.85; }
+html[lang="ko"] .doc th { white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────────────
+   `hidden` 은 언제나 이깁니다.
+
+   **옛 404 에서 실제로 진 자리입니다.** 네 말을 다 싣고 브라우저가 하나만
+   남기는 화면인데, `.btn { display: inline-flex }` 가 `[hidden]` 의
+   `display:none` 을 이겨서 **버튼 네 개가 한 줄로 다 보였습니다** —
+   「처음으로 · Go to the start · Ir al inicio · Ir para o início」.
+
+   제목과 본문은 `display` 를 안 걸어서 멀쩡했고, 그래서 눈에 잘 안
+   띄었습니다. 브라우저 기본값은 클래스 하나에도 집니다.
+   ───────────────────────────────────────────────────────────── */
+[hidden] { display: none !important; }

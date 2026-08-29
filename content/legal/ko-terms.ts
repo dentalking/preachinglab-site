@@ -1,43 +1,8 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>이용약관 — Preaching Lab</title>
-<meta name="description" content="Preaching Lab 서비스 이용약관.">
-<meta name="robots" content="index,follow">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>✎</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=b98643df">
-<style>
-  .doc { max-width: 720px; margin: 0 auto; padding: 72px 24px 96px; }
-  .doc h1 { font-size: 2rem; letter-spacing: -.02em; margin: 0 0 .4em; }
-  .doc .updated { color: var(--muted, #6b6660); font-size: .9rem; margin-bottom: 3em; }
-  .doc h2 { font-size: 1.15rem; margin: 2.6em 0 .7em; letter-spacing: -.01em; }
-  .doc p, .doc li { line-height: 1.85; }
-  .doc ul { padding-left: 1.2em; }
-  .doc li { margin-bottom: .5em; }
-  .doc .back { display: inline-block; margin-bottom: 2.4em; font-size: .95rem; }
-  .doc .box { border: 1px solid var(--rule, #e5e0d6); border-radius: 12px; padding: 1.2em 1.4em; margin: 1.4em 0; }
-</style>
-<link rel="canonical" href="https://preachinglab.cloud/terms">
-<link rel="alternate" hreflang="ko" href="https://preachinglab.cloud/terms">
-<link rel="alternate" hreflang="en" href="https://preachinglab.cloud/en/terms">
-<link rel="alternate" hreflang="x-default" href="https://preachinglab.cloud/terms">
-<meta name="description" content="Preaching Lab 서비스 이용약관입니다.">
-<meta property="og:title" content="이용약관 — Preaching Lab">
-<meta property="og:description" content="Preaching Lab 서비스 이용약관입니다.">
-<meta property="og:url" content="https://preachinglab.cloud/terms">
-<meta property="og:image" content="https://preachinglab.cloud/assets/og.png">
-<meta name="twitter:card" content="summary_large_image">
-</head>
-<body>
+// terms.html 의 본문을 **한 글자도 바꾸지 않고** 옮긴 것입니다.
+// scripts/import-legal.mjs 가 한 번 떠 왔고, 지금부터는 이 파일이 원본입니다.
+// 법률 문안이라 손으로 고칠 때도 문장 단위로만 손대십시오.
 
-<main class="doc">
-  <a class="back" href="/">← Preaching Lab</a>
+export const body = `<a class="back" href="/">← Preaching Lab</a>
 
   <h1>이용약관</h1>
   <p class="updated">2026년 8월 10일부터 적용</p>
@@ -114,8 +79,4 @@
   <p>
     이 약관은 대한민국 법을 따릅니다. 분쟁이 생기면 먼저 협의로 풀고자 합니다.<br>
     <a href="mailto:hello@preachinglab.cloud">hello@preachinglab.cloud</a>
-  </p>
-</main>
-
-</body>
-</html>
+  </p>`;
