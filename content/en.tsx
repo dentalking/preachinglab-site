@@ -16,7 +16,7 @@ export const en: Landing = {
     ogDescription: 'How did my sermon land? A reflection report for preachers who want to preach better.',
     ogImageAlt: "How did last Sunday's sermon land? — Preaching Lab",
   },
-  nav: { langLabel: 'Language' },
+  nav: { langLabel: 'Language', mine: 'My reports' },
   hero: {
     eyebrow: 'For preachers who want to preach better',
     h1: (

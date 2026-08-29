@@ -15,7 +15,7 @@ export const pt: Landing = {
     ogDescription: 'Como soou o meu sermão? Um relatório de reflexão para o pregador que quer pregar melhor.',
     ogImageAlt: 'Como soou o sermão do domingo passado? — Preaching Lab',
   },
-  nav: { langLabel: 'Idioma' },
+  nav: { langLabel: 'Idioma', mine: 'Meus relatórios' },
   hero: {
     eyebrow: 'Para o pregador que quer pregar melhor',
     h1: (

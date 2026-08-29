@@ -70,11 +70,20 @@ export function Landing({ c, locale }: { c: LandingContent; locale: Locale }) {
             ),
           )}
         </nav>
-        {c.nav.apply ? (
-          <a className="btn btn-ghost" href="#apply">
-            {c.nav.apply}
+        {/* 오른쪽 끝. **두 종류의 손님이 옵니다** — 처음 오신 분과, 이미
+            쓰고 계신 분. 앞엣분께는 신청을, 뒤엣분께는 들어가는 문을
+            드립니다. 조용한 쪽(`btn-quiet`)이 「내 리포트」인 것은, 랜딩이
+            아직 처음 오신 분을 향한 화면이기 때문입니다. */}
+        <div className="topbar-end">
+          <a className="btn btn-quiet" href="/my">
+            {c.nav.mine}
           </a>
-        ) : null}
+          {c.nav.apply ? (
+            <a className="btn btn-ghost" href="#apply">
+              {c.nav.apply}
+            </a>
+          ) : null}
+        </div>
       </header>
 
       <main id="top">

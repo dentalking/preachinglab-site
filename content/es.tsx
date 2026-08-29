@@ -18,7 +18,7 @@ export const es: Landing = {
       '¿Cómo se escuchó mi sermón? Un informe de reflexión para el predicador que quiere predicar mejor.',
     ogImageAlt: '¿Cómo se escuchó el sermón del domingo pasado? — Preaching Lab',
   },
-  nav: { langLabel: 'Idioma' },
+  nav: { langLabel: 'Idioma', mine: 'Mis informes' },
   hero: {
     eyebrow: 'Para el predicador que quiere predicar mejor',
     h1: (

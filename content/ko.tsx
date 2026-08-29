@@ -15,7 +15,7 @@ export const ko: Landing = {
     ogDescription: '내 설교가 어떻게 들렸을까. 설교를 더 잘하고 싶은 목회자를 위한 회고 리포트.',
     ogImageAlt: '지난 주일 설교는 어떻게 들렸을까요 — Preaching Lab',
   },
-  nav: { langLabel: '언어 선택', apply: '파일럿 신청' },
+  nav: { langLabel: '언어 선택', apply: '파일럿 신청', mine: '내 리포트' },
   hero: {
     eyebrow: '설교를 더 잘하고 싶은 목회자를 위한 회고 리포트',
     h1: (

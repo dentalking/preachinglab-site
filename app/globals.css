@@ -105,6 +105,9 @@ a { color: var(--pen); text-underline-offset: 3px; }
 .btn-ghost { border-color: var(--rule); color: var(--ink); padding: 9px 18px; font-size: .9rem; }
 .btn-ghost:hover { border-color: var(--pen); color: var(--pen); }
 .btn-quiet { color: var(--ink-soft); padding-left: 6px; padding-right: 6px; }
+/* 머리띠 오른쪽 끝. 요소를 그냥 하나 더 넣으면 `space-between` 이 넷을
+   고르게 벌려 낱말과 언어 사이가 벌어집니다. 둘을 한 덩이로 묶습니다. */
+.topbar-end { display: flex; align-items: center; gap: 4px; }
 .btn-quiet:hover { color: var(--pen); }
 .btn-block { width: 100%; margin-top: 8px; padding: 15px 22px; font-size: 1rem; }
 
