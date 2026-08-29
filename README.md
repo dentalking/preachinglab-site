@@ -1,4 +1,42 @@
-# preachinglab.cloud — 랜딩 페이지
+# preachinglab.cloud — 랜딩 페이지 · **여기는 끝났습니다 (2026-08-29)**
+
+> ## 이 저장소를 고치지 마십시오
+>
+> `preachinglab.cloud` 는 이제 **Railway** 에서 섭니다. 랜딩은
+> **`dentalking/sermon-archive` 의 `web/`** 에 있습니다(Next.js).
+>
+> ```
+> web/content/{ko,en,es,pt}.tsx   네 말의 글
+> web/components/Landing.tsx      머리띠·본문
+> web/app/globals.css             모양
+> ```
+>
+> ### 왜 옮겼는가
+>
+> **랜딩이 두 벌이라 한쪽만 고쳐졌습니다.** 2026-08-29 밤, 로그인 뒤로
+> 들어가는 문(`내 리포트`)을 여기에만 냈고 저쪽에는 안 났습니다. 그래서
+> `preachinglab.cloud` 로 오신 분께는 문이 보이고 `my.preachinglab.cloud`
+> 로 오신 분께는 안 보였습니다. **두 곳에 두면 반드시 이렇게 됩니다.**
+>
+> 그리고 웹이 앱과 같은 일을 하려면 DB 와 같은 자리에 있어야 합니다 —
+> Cloudflare Workers 에서는 Postgres 로 TCP 를 못 열고, PDF 를 만드는
+> Chromium 도 그 컨테이너에만 있습니다.
+>
+> ### 여기 남겨 둔 것
+>
+> **Cloudflare Pages 프로젝트는 아직 살아 있습니다.** 되돌릴 길로
+> 두었습니다 — DNS 의 CNAME 을 `preachinglab-site.pages.dev` 로 되돌리면
+> 이 판이 그대로 다시 섭니다. 며칠 지켜본 뒤 그것도 뗄 자리입니다.
+>
+> `legacy-landing` 태그는 새 저장소에 따라가 있고, `check-parity` 가
+> 아직 그것과 지금 랜딩을 맞대고 있습니다. **이 저장소의 이력은 그래서
+> 지우면 안 됩니다.**
+>
+> 아래는 옛 안내입니다. 기록으로만 두십시오.
+
+---
+
+# (옛 안내) preachinglab.cloud — 랜딩 페이지
 
 설교 회고 서비스 Preaching Lab 의 소개 페이지. 정적 파일 세 개뿐입니다.
 
