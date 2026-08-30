@@ -1,3 +1,21 @@
 .DS_Store
 *.log
 .playwright-mcp/
+
+# 비밀. `.env` 만 적으면 `.env.bak-…` 같은 사본이 안 막힙니다 — 다른 저장소에서
+# 실제로 그렇게 떴습니다. Cloudflare 토큰을 여기 두게 되면 이 줄이 막아 줍니다.
+.env*
+!.env.example
+
+# 남의 코드와 산출물. 이 저장소는 index.html·en/·es/·pt/·assets/·functions/ 를
+# **그대로** 배포합니다(빌드 설정이 없습니다). 아래는 예전 Next.js 시도가 남긴
+# 것들로, 합쳐서 977MB 입니다. 안 막아 두면 `git add -A` 한 번에 딸려 들어갑니다.
+node_modules/
+.next/
+.open-next/
+.wrangler/
+out/
+tsconfig.tsbuildinfo
+
+# 랜딩을 고치며 찍은 화면 갈무리. 배포에도 저장소에도 필요 없습니다.
+screenshots/
